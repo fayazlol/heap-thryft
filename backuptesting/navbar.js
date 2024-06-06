@@ -1,10 +1,19 @@
-import * as  React from 'react'
+"use client";
+
+import React from 'react';
 import Image from 'next/image'
 import {NextUIProvider} from "@nextui-org/system"
 import {Button} from "@nextui-org/button"
 import {Input} from "@nextui-org/input";
+import {useUser} from "@auth0/nextjs-auth0/client"
+import LoginButton from './loginbutton';
+import LogoutButton from './logoutbutton';
+import SignupButton from './signupbutton';
+
+
 
 const Navbar = () => {
+    const {user, error, isLoading } = useUser();
     return (
         <NextUIProvider>
         <body class="font-[arial]">
@@ -38,25 +47,23 @@ const Navbar = () => {
                 </ul>
             </div>
             <div class="relative inline-flex  group gap-7">
-            <div class="flex max-w-sm rounded-full bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5">
-        <Button radius='full' className="bg-[#e5e7eb] text-[#18181b]" variant="shadow">
-        Log In
-      </Button>  
-      </div>
-      <div class="flex max-w-sm rounded-full bg-gradient-to-tr from-[#c026d3] to-[#4338ca] p-0.5">
-        <Button radius='full' className="bg-[#18181b] text-white" variant="shadow">
-        Sign Up
-      </Button>  
-      </div>
+                {!user && !isLoading && (
+                    <>
+                    <LoginButton />
+                    <SignupButton />
+                    </>
+            )}
+            {user && !isLoading &&(
+                <>
+                <LogoutButton/>
+                </>
+
+            )}
     </div>
             </nav>
     </header>
     </body>
     </NextUIProvider>
-
-
-
-
     )
 }
 

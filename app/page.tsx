@@ -1,10 +1,10 @@
 //import Image from "next/image";
-import Navbar from "./components/navbar";
 import * as React from "react";
 import {Card,Button,Image,Link,CardFooter,CardBody} from "@nextui-org/react";
 // 1. import `NextUIProvidernpm` component
 import {NextUIProvider} from "@nextui-org/system";
 import { maxHeaderSize } from "http";
+import { GetSession, getSession } from "@auth0/nextjs-auth0";
 
 
 
@@ -20,11 +20,15 @@ const categories = [
 
 
 
-export default function Home() {
+export default async function Home() {
+  const session = await getSession();
+  const user = session?.user;
+  console.log(user);
+
+
   return (
     <NextUIProvider>
       <main className="bg-[#fafafa] min-h-screen">
-        <Navbar />
         <div className="flex flex-col w-full h-full items-center p-3">
           <div className="relative w-full max-w px-0.5">
               <Image
