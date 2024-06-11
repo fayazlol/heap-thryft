@@ -1,29 +1,11 @@
-//import Image from "next/image";
+
 import * as React from "react";
 import {Card,Button,Image,Link,CardFooter,CardBody} from "@nextui-org/react";
-// 1. import `NextUIProvidernpm` component
 import {NextUIProvider} from "@nextui-org/system";
 import { maxHeaderSize } from "http";
-import { GetSession, getSession } from "@auth0/nextjs-auth0";
-
-
-
-
-const categories = [
-  { name: 'footwear', image: '/footwear.png', link: '/footwear' },
-  { name: 'outerwear', image: '/outerwear.png', link: '/outerwear' },
-  { name: 'bags', image: '/bags.png', link: '/bags' },
-  { name: 'bottoms', image: '/bottoms.png', link: '/bottoms' },
-  { name: 'tops', image: '/tops.png', link: '/tops' },
-  { name: 'accessories', image: '/accessories.png', link: '/accessories' },
-];
-
 
 
 export default async function Home() {
-  const session = await getSession();
-  const user = session?.user;
-  console.log(user);
 
 
   return (
