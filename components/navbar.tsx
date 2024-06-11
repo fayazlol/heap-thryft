@@ -5,16 +5,15 @@ import Image from 'next/image'
 import {NextUIProvider} from "@nextui-org/system"
 import {Button} from "@nextui-org/button"
 import {Input} from "@nextui-org/input";
-import {useUser} from "@auth0/nextjs-auth0/client"
+import { signOut, useSession } from "next-auth/react";
 import {LoginButton} from './loginbutton';
 import {LogoutButton}from './logoutbutton';
 import {SignupButton} from './signupbutton';
-import {ProfileButton} from './profilebutton'
 
 
 
 const Navbar = () => {
-    const {user, error, isLoading } = useUser();
+    const { data: session }: any = useSession();
     return (
         <NextUIProvider>
         <body className="font-[arial]">
@@ -48,13 +47,13 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="relative inline-flex  group gap-7">
-                {!user && !isLoading && (
+                {!session && (
                     <>
                     <LoginButton />
                     <SignupButton />
                     </>
             )}
-            {user && !isLoading &&(
+            {session &&(
                 <>
                 <a className="flex flex-col text-2xl justify-center items-center "href='/userprofile'>
                 👤

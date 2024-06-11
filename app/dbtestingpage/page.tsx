@@ -1,6 +1,4 @@
 //this page should by right show all the objects in our testcollection collection, 
-//but there seems to be a error in using the .map function for testcollections variable, so it doesnt displat properly
-
 export default async function Page(){
     const fetchTest = async ()=>{
         const res = await fetch("http://localhost:3000/api/testcollection");
