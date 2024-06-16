@@ -28,7 +28,7 @@ const Navbar = () => {
                 className="nav-links duration-500 md:static absolute md:min-h-fit min-h-[60vh] left-0 top-[-100%] md:w-auto  w-full flex items-center px-5">
                 <ul className="flex md:flex-row flex-col md:items-center gap-20">
                     <li>
-                        <a className="text-[#18181b] hover:text-[#1d4ed8]" href="#">Shop Now</a>
+                        <a className="text-[#18181b] hover:text-[#1d4ed8]" href="/shopnow">Shop Now</a>
                     </li>
                     <li>
                         <a className="text-[#18181b] hover:text-[#1d4ed8]" href="#">Featured</a>

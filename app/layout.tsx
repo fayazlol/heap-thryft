@@ -5,6 +5,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import Navbar from "@/components/navbar";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/app/lib/SessionProvider";
+import {NextUIProvider} from "@nextui-org/system";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,11 +23,11 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang="en">
+      <NextUIProvider>
       <SessionProvider session={session}>
-      <UserProvider>
       <body className={inter.className}><Navbar />{children}</body>
-      </UserProvider>
       </SessionProvider>
+      </NextUIProvider>
     </html>
   );
 }

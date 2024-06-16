@@ -3,13 +3,13 @@ import * as React from "react";
 import {Card,Button,Image,Link,CardFooter,CardBody} from "@nextui-org/react";
 import {NextUIProvider} from "@nextui-org/system";
 import { maxHeaderSize } from "http";
+import { redirect } from "next/dist/server/api-utils";
 
 
 export default async function Home() {
 
 
   return (
-    <NextUIProvider>
       <main className="bg-[#fafafa] min-h-screen">
         <div className="flex flex-col w-full h-full items-center p-3">
           <div className="relative w-full max-w px-0.5">
@@ -173,12 +173,13 @@ export default async function Home() {
 {/*shop by stores part*/}
 
     <div className="flex flex-col justify-start ">
-            <b className="text-2xl text-black px-4 py-4">Shop by Stores</b>
+            <b className="text-2xl text-black px-4 py-4">Shop by Users</b>
           </div>
           <Link href="/insert_link_to_stores_page" className="flex justify-end px-5">
           <b className="text-blue-500 hover:underline">see all &rarr;</b>
         </Link>     
         <div className='grid md:grid-cols-5 auto-rows-[300px] gap-4 px-4'>
+        <Link href='/users/testuser'>
         <Card
         className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
         isHoverable
@@ -193,13 +194,14 @@ export default async function Home() {
               height='100%'
               alt='woofie'
               className="w-full object-cover h-[260px]"
-              src='/woofie.png'
+              src='/testuser.jpg'
             />
           </CardBody>
           <CardFooter className=" text-xl  justify-center">
-            <b>{"woofie's warhouse"}</b>
+            <b>{"testuser"}</b>
           </CardFooter>
       </Card>
+      </Link>
 
       <Card
         className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
@@ -297,7 +299,7 @@ export default async function Home() {
     <div className="flex flex-col justify-start ">
             <b className="text-2xl text-black px-4 py-4">On Sale</b>
           </div>
-          <Link href="/insert_link_to_store_page" className="flex justify-end px-5">
+          <Link href="/onsale" className="flex justify-end px-5">
           <b className="text-blue-500 hover:underline">see all &rarr;</b>
         </Link>     
         <div className='grid md:grid-cols-5 auto-rows-[400px] gap-4 px-4'>
@@ -363,7 +365,7 @@ export default async function Home() {
           <b>{"shirt"}</b>
           </CardFooter>
       </Card>
-
+  
       <Card
         className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
         isHoverable
@@ -384,6 +386,7 @@ export default async function Home() {
           <b>{"shirt"}</b>
           </CardFooter>
       </Card>
+      
 
       <Card
         className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
@@ -425,6 +428,5 @@ export default async function Home() {
           </div>
     
       </main>
-    </NextUIProvider>
   );
 }
