@@ -18,6 +18,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    profilepicture: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

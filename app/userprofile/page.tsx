@@ -26,7 +26,7 @@ const UserProfile = async () => {
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="bg-white p-6 rounded-lg shadow-md w-96 text-center">
         <Image
-          src="/ballingcat.jpeg"
+          src={user.profilepicture}
           alt="Profile Picture"
           width={100}
           height={100}
@@ -35,14 +35,17 @@ const UserProfile = async () => {
         <h1 className="text-gray-600 mb-4">@{user.username}</h1>
         <p className="text-gray-600 mb-4">{user.email}</p>
         <div className="flex flex-col space-y-2">
-          <Link href="/user/listings">
+          <Link href="/userprofile/mylistings">
             <p className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">My Listings</p>
           </Link>
-          <Link href="/user/orders">
+          <Link href="/userprofile/orders">
             <p className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">My Orders</p>
           </Link>
-          <Link href="/user/liked">
-            <p className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Liked Items</p>
+          <Link href="/userprofile/favourites">
+            <p className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">My Favourites</p>
+          </Link>
+          <Link href="/userprofile/createlisting">
+            <p className="bg-[#8b5cf6] text-white py-2 px-4 rounded hover:bg-[#7c3aed]">Create Listings</p>
           </Link>
         </div>
       </div>
