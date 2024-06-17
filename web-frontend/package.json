@@ -1,5 +1,5 @@
 {
-  "name": "thryfttest",
+  "name": "thryft-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -27,7 +27,7 @@
     "framer-motion": "^11.2.6",
     "mongodb": "^4.17.2",
     "mongoose": "^8.4.1",
-    "next": "14.2.3",
+    "next": "^14.2.4",
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",

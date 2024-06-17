@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# THRFYT
 
-## Getting Started
+A summer coding project under SMU .HACK HEAP.
 
-First, run the development server:
+## Code Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [MongoDB](https://www.mongodb.com)
+- Express
+- [Next.JS](https://nextjs.org)
+- [Next.UI](https://nextui.org)
+- Node.JS
+- [Auth0](https://auth0.com)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuring the Environment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Navigate to the `backend` folder
+2. Open the `.env.example` file
+3. Update the database details and credentials to match your local database as well as any other environment variables as needed.
+4. Rename the `.env.example` file to `.env` before starting the application
+5. Navigate outside of the `backend` folder, then into the `web-frontend` folder
+6. Open the `.env.example` file
+7. Update environment variables as needed
+8. Rename the `.env.example` file to `.env` before building/starting the Next.JS Web App
+9. Repeat the same steps above, except that rename the file from `.env.example` to `.env.test`, if you want to have a seperate test configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Running the Application
 
-## Learn More
+1. Open a terminal shell inside this repository folder.
 
-To learn more about Next.js, take a look at the following resources:
+2. Navigate to the `backend` folder:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   cd backend
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. Run the following command to install the dependencies:
 
-## Deploy on Vercel
+   ```bash
+   npm install
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. To run the backend server, run the following command:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   npm run start
+    ```
+
+4. Navigate to the `web-frontend` folder:
+
+   ```bash
+   cd ..
+   cd web-frontend
+    ```
+
+5. Run the following command to install the dependencies:
+
+   ```bash
+   npm install
+    ```
+
+6. To run the Next.JS Web App in development mode, run the following command and follow the instructions to open your web browser:
+
+   ```bash
+   npm run dev
+    ```
+
+7. Once you are ready to build the Next.JS Web App and run it in production mode, run the following commands:
+
+   ```bash
+   npm run build
+   npm run start
+    ```
+
+## Team Members
+
+- To fill in
+
+## Mentors
+
+- [Hansen Lim](https://www.linkedin.com/in/hansen-lim/)
+- Fern
