@@ -8,9 +8,9 @@ import { redirect } from "next/navigation";
 import User from "@/models/user"
 
 export default async function ShopNow(){
-    const session = await getServerSession();
+  const session = await getServerSession();
   if (!session) {
-    redirect("/");
+    redirect("/login");
     return null;
   }
 
@@ -18,7 +18,7 @@ export default async function ShopNow(){
   const user = await User.findOne({ email: session.user?.email });
 
   if (!user) {
-    redirect("/");
+    redirect("/login");
     return null;
   }
     const alllistings = await ProductListing.find({})
@@ -41,7 +41,7 @@ export default async function ShopNow(){
     <LikeIcon productId={alllistings._id} username={user.username} />
     </div>
     <CardBody className="overflow-visible p-0">
-    <Link href="/userprofile">
+    <Link href={`/listings/${alllistings._id}`}>
     <div className="w-full h-[300px]">
       <Image
         radius="lg"
@@ -54,7 +54,7 @@ export default async function ShopNow(){
       </div>
       </Link>
     </CardBody>
-    <Link href="/userprofile">
+    <Link href={`/listings/${alllistings._id}`}>
     <CardFooter className="flex flex-col items-start">
         <div className="flex justify-center items-center">
         <b className="text-[#71717a] text-xs">Listed by {alllistings.username} {formatDate(alllistings.createdAt)}</b>

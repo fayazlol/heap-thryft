@@ -22,7 +22,7 @@ export const POST = async (request: any) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 5);
-  const defaultpic = '/ballingcat.jpeg'
+  const defaultpic = '/defaultpfp.jpeg'
 
   const newUser = new User({
     username,

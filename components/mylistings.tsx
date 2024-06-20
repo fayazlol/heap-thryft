@@ -1,3 +1,4 @@
+import { maxHeaderSize } from "http";
 import React, { FC } from "react";
 
 interface Listing {
@@ -31,6 +32,8 @@ const Listings: FC<ListingsProps> = ({ listings }) => {
                 src={listing.productImagePath}
                 alt={listing.productName}
                 className="mt-4 rounded-lg"
+                width={maxHeaderSize}
+                height={300}
               />
               {listing.isDiscounted && (
                 <span className="text-red-500 font-semibold">Discounted</span>

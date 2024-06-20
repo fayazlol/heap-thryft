@@ -4,9 +4,16 @@ import {Card,Button,Image,Link,CardFooter,CardBody} from "@nextui-org/react";
 import {NextUIProvider} from "@nextui-org/system";
 import { maxHeaderSize } from "http";
 import { redirect } from "next/dist/server/api-utils";
+import dbConnect from "./lib/dbConnect";
+import mongoose from "mongoose";
+import ShopByUsers from "@/components/ShopByUsers";
+import User from "@/models/user";
 
 
 export default async function Home() {
+  await dbConnect();
+  const users = await User.find()
+
 
 
   return (
@@ -15,7 +22,7 @@ export default async function Home() {
           <div className="relative w-full max-w px-0.5">
               <Image
                 alt="This is supposed to be a video"
-                className="object-cover w-full h-full rounded-lg"
+                className="object-cover w-full h-full rounded-"
                 height={maxHeaderSize}
                 width={maxHeaderSize}
                 src="/topvid.png"
@@ -171,127 +178,7 @@ export default async function Home() {
     </div>
 
 {/*shop by stores part*/}
-
-    <div className="flex flex-col justify-start ">
-            <b className="text-2xl text-black px-4 py-4">Shop by Users</b>
-          </div>
-          <Link href="/insert_link_to_stores_page" className="flex justify-end px-5">
-          <b className="text-blue-500 hover:underline">see all &rarr;</b>
-        </Link>     
-        <div className='grid md:grid-cols-5 auto-rows-[300px] gap-4 px-4'>
-        <Link href='/users/testuser'>
-        <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='woofie'
-              className="w-full object-cover h-[260px]"
-              src='/testuser.jpg'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-center">
-            <b>{"testuser"}</b>
-          </CardFooter>
-      </Card>
-      </Link>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='frankswarehouse'
-              className="w-full object-cover h-[260px]"
-              src='/frank.jpg'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-center">
-            <b>{"frank's warehouse"}</b>
-          </CardFooter>
-      </Card>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='astonabode'
-              className="w-full object-cover h-[260px]"
-              src='/aston.png'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-center">
-            <b>{"aston's abode"}</b>
-          </CardFooter>
-      </Card>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='honsieponsie'
-              className="w-full object-cover h-[260px]"
-              src='/honsie.jpg'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-center">
-            <b>honsieponsie</b>
-          </CardFooter>
-      </Card>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='the rookies'
-              className="w-full object-cover h-[260px]"
-              src='/rookies.png'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-center">
-            <b>the rookies store</b>
-          </CardFooter>
-      </Card>      
-    </div>
-
+      <ShopByUsers users={users} />
     <div className="flex flex-col justify-start py-10"></div>
 
     {/*on sale part*/}

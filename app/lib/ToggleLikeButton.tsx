@@ -1,7 +1,6 @@
 // lib/LikeIcon.tsx
 "use client"
 import { useState } from 'react';
-import { Button } from '@nextui-org/react';
 import HeartIconOutline from '@/components/HeartIconOutline';
 import HeartIconSolid from '@/components/HeartIconSolid';
 import mongoose from 'mongoose';
@@ -37,9 +36,9 @@ interface LikeIconProps {
     };
 
   return (
-    <Button isIconOnly color="danger" aria-label="Like" onClick={handleToggle}>
+    <button aria-label="Like" onClick={handleToggle}>
       {liked ? <HeartIconSolid /> : <HeartIconOutline />}
-    </Button>
+    </button>
   );
 };
 

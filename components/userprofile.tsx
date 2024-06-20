@@ -1,9 +1,12 @@
 import React, { FC } from "react";
+import Image from "next/image";
+import { maxHeaderSize } from "http";
 //line 3-18 just sets the attributes for the user and listing collections
 interface UserProfileProps {
   user: {
     username: string;
     email: string;
+    profilepicture: string;
   };
   listings: {
     _id: string;
@@ -22,7 +25,7 @@ const UserProfile: FC<UserProfileProps> = ({ user, listings }) => {
     <main className="bg-[#fafafa] min-h-screen">
       <div className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="bg-white p-6 rounded-lg shadow-md w-96 text-center">
-          <img
+          <Image
             src={user.profilepicture || "/testuser.jpg"}
             alt="Profile Picture"
             width={100}
@@ -37,14 +40,16 @@ const UserProfile: FC<UserProfileProps> = ({ user, listings }) => {
             <ul className="space-y-4">
               {listings.map((listing) => (
                 <li key={listing._id} className="bg-white p-6 rounded-lg shadow-md">
-                  <h3 className="text-xl font-semibold">{listing.productName}</h3>
+                  <h3 className="text-black text-xl font-semibold">{listing.productName}</h3>
                   <p className="text-gray-600">Brand: {listing.productBrand}</p>
                   <p className="text-gray-600">Size: {listing.productSize}</p>
                   <p className="text-gray-600">Category: {listing.category}</p>
                   <p className="text-gray-600">Price: ${listing.price}</p>
-                  <img
+                  <Image
                     src={listing.productImagePath}
                     alt={listing.productName}
+                    width={maxHeaderSize}
+                    height={300}
                     className="mt-4 rounded-lg"
                   />
                   {listing.isDiscounted && (

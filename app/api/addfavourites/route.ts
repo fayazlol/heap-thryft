@@ -31,7 +31,7 @@ async function connectToDatabase() {
   export async function POST(req: NextRequest) {
     await connectToDatabase();
   
-    const { productId, username } = await req.json();
+    const { productId, username, liked } = await req.json();
   
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
       return NextResponse.json({ error: 'Invalid productId' }, { status: 400 });
