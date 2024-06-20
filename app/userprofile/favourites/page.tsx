@@ -9,23 +9,26 @@ import User from "@/models/user"
 import Favourite from "@/models/favourite";
 import mongoose from "mongoose";
 
-interface ProductListing {
-  _id: mongoose.Types.ObjectId;
-  productImagePath: string;
-  productName: string;
-  productBrand: string;
-  productSize: string;
-  price: string;
-  createdAt: Date; // or Date depending on how you are receiving this data
-}
 
 interface ProductListing {
   _id: mongoose.Types.ObjectId;
-  productImagePath: string;
+  username: string;
   productName: string;
+  price: string;
+  productImage1: string;
+  productImage2: string;
+  productImage3: string;
+  productImage4: string;
   productBrand: string;
   productSize: string;
-  price: string;
+  category: string;
+  productDescription: string;
+  isDiscounted: boolean;
+  discountPrice: string;
+  isMeetup: boolean;
+  meetupLocation: string;
+  isDelivery: boolean;
+  deliveryCost: string;
   createdAt: Date;
 }
 
@@ -37,7 +40,7 @@ export const metadata = {
 const MyFavouritesPage = async () => {
   const session = await getServerSession();
   if (!session) {
-    redirect("/");
+    redirect("/login");
     return null;
   }
 
@@ -45,7 +48,7 @@ const MyFavouritesPage = async () => {
   const user = await User.findOne({ email: session.user?.email });
 
   if (!user) {
-    redirect("/");
+    redirect("/register");
     return null;
   }
 
@@ -73,7 +76,7 @@ const MyFavouritesPage = async () => {
     <LikeIcon productId={listing._id} username={user.username} />
     </div>
     <CardBody className="overflow-visible p-0">
-    <Link href="/userprofile">
+    <Link href={`/listings/${listing._id}`}>
     <div className="w-full h-[300px]">
       <Image
         radius="lg"
@@ -81,7 +84,7 @@ const MyFavouritesPage = async () => {
         height="100%"
         alt="shirt1"
         className="w-full object-cover h-[300px]"
-        src={listing.productImagePath}
+        src={listing.productImage1}
       />
       </div>
       </Link>
@@ -94,7 +97,17 @@ const MyFavouritesPage = async () => {
         <Divider/>
       <div className="flex justify-between w-full">
         <b className="text-black text-xl">{listing.productName}</b>
-        <b className="text-black text-xl">${listing.price}</b>
+        {
+  listing.isDiscounted ? (
+    <div className="flex items-center space-x-2"> 
+    <p className="text-gray-600 text-xl mb-4 line-through">${listing.price}</p> 
+    <p className="text-red-500 text-xl font-bold mb-4">${listing.discountPrice}</p>
+  </div>
+  
+  ) : (
+    <p className="text-black text-xl font-bold mb-4">${listing.price}</p>
+  )
+}
       </div>
       <div className="flex justify-between w-full">
       <b className="text-black text-l">{listing.productBrand}</b>

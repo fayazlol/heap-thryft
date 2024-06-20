@@ -11,12 +11,21 @@ interface UserProfileProps {
   listings: {
     _id: string;
     productName: string;
+    price: string;
+    productImage1: string;
+    productImage2: string;
+    productImage3: string;
+    productImage4: string;
     productBrand: string;
     productSize: string;
     category: string;
-    price: number;
-    productImagePath: string;
+    productDescription: string;
     isDiscounted: boolean;
+    discountPrice?: string;
+    isMeetup: boolean;
+    meetupLocation?: string;
+    isDelivery: boolean;
+    deliveryCost?: string;
   }[];
 }
 //this is all front end stuff (html)
@@ -44,9 +53,19 @@ const UserProfile: FC<UserProfileProps> = ({ user, listings }) => {
                   <p className="text-gray-600">Brand: {listing.productBrand}</p>
                   <p className="text-gray-600">Size: {listing.productSize}</p>
                   <p className="text-gray-600">Category: {listing.category}</p>
-                  <p className="text-gray-600">Price: ${listing.price}</p>
+                  {
+  listing.isDiscounted ? (
+    <div className="flex items-center space-x-2"> 
+    <p className="text-gray-600 text-xl mb-4 line-through">${listing.price}</p> 
+    <p className="text-red-500 text-xl font-bold mb-4">${listing.discountPrice}</p>
+  </div>
+  
+  ) : (
+    <p className="text-black text-xl font-bold mb-4">${listing.price}</p>
+  )
+}
                   <Image
-                    src={listing.productImagePath}
+                    src={listing.productImage1}
                     alt={listing.productName}
                     width={maxHeaderSize}
                     height={300}

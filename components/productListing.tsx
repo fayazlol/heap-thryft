@@ -7,12 +7,21 @@ interface ProductListingProps {
     _id: string;
     username: string;
     productName: string;
+    price: string;
+    productImage1: string;
+    productImage2: string;
+    productImage3: string;
+    productImage4: string;
     productBrand: string;
     productSize: string;
     category: string;
-    price: number;
-    productImagePath: string;
+    productDescription: string;
     isDiscounted: boolean;
+    discountPrice: string;
+    isMeetup: boolean;
+    meetupLocation: string;
+    isDelivery: boolean;
+    deliveryCost: string;
     createdAt: Date;
   };
 }
@@ -24,7 +33,7 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing }) => {
       <div className="flex-1">
         <div className="relative">
           <Image
-            src={listing.productImagePath}
+            src={listing.productImage1}
             alt={listing.productName}
             width={600}
             height={600}
@@ -38,9 +47,19 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing }) => {
         <p className="text-gray-500 mb-2">{listing.productSize}</p>
         <p className="text-gray-500 mb-2">Category: {listing.category}</p>
         <Divider/>
-        <p className="text-black text-xl font-bold mb-4">${listing.price}</p>
+        {
+  listing.isDiscounted ? (
+    <div className="flex items-center space-x-2"> 
+    <p className="text-gray-600 text-xl mb-4 line-through">${listing.price}</p> 
+    <p className="text-red-500 text-xl font-bold mb-4">${listing.discountPrice}</p>
+  </div>
+  
+  ) : (
+    <p className="text-black text-xl font-bold mb-4">${listing.price}</p>
+  )
+}
+
         <b className="text-[#71717a] text-xs">Listed {formatDate(listing.createdAt)}</b>
-        {listing.isDiscounted && <p className="text-red-500 mb-4">Discounted</p>}
         <Button className="bg-black text-white mb-4 w-full">PURCHASE</Button>
         <Divider/>
         <div className="mt-8">

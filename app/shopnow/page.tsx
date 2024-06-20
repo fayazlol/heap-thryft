@@ -49,7 +49,7 @@ export default async function ShopNow(){
         height="100%"
         alt="shirt1"
         className="w-full object-cover h-[300px]"
-        src={alllistings.productImagePath}
+        src={alllistings.productImage1}
       />
       </div>
       </Link>
@@ -62,7 +62,17 @@ export default async function ShopNow(){
         <Divider/>
       <div className="flex justify-between w-full">
         <b className="text-black text-xl">{alllistings.productName}</b>
-        <b className="text-black text-xl">${alllistings.price}</b>
+        {
+  alllistings.isDiscounted ? (
+    <div className="flex items-center space-x-2"> 
+    <p className="text-gray-600 text-xl mb-4 line-through">${alllistings.price}</p> 
+    <p className="text-red-500 text-xl font-bold mb-4">${alllistings.discountPrice}</p>
+  </div>
+  
+  ) : (
+    <p className="text-black text-xl font-bold mb-4">${alllistings.price}</p>
+  )
+}
       </div>
       <div className="flex justify-between w-full">
       <b className="text-black text-l">{alllistings.productBrand}</b>

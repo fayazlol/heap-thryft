@@ -15,10 +15,6 @@ const ProductListingSchema = new Schema({
         type: Number,
         required: true
     },
-    productImagePath: {
-        type: String,
-        required: true
-    },
     productBrand: {
         type: String
     },
@@ -32,7 +28,43 @@ const ProductListingSchema = new Schema({
     },
     isDiscounted: {
         type: Boolean
+    },
+    discountPrice: {
+        type: Number
+    },
+    productDescription: {
+        type: String,
+        required: true
+    },
+    productImage1: {
+        type: String,
+        required: true
+    },
+    productImage2: {
+        type: String,
+    },
+    productImage3: {
+        type: String,
+    },
+    productImage4: {
+        type: String,
+    },
+    isMeetup: {
+        type: Boolean
+    },
+    meetupLocation:{
+        type: String
+    },
+    isDelivery: {
+        type: Boolean
+    },
+    deliveryCost: {
+        type: Number
+    },
+    isSold:{
+        type: Boolean
     }
+
 },
 { timestamps: true }
 );
