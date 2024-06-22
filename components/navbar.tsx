@@ -8,6 +8,8 @@ import { LoginButton } from './loginbutton';
 import { LogoutButton } from './logoutbutton';
 import { SignupButton } from './signupbutton';
 import ProfileIcon from "@/components/profileIcon"
+import NavbarCart from "@/components/NavbarCart"
+
 
 const Navbar = () => {
     const { data: session }: any = useSession();
@@ -23,7 +25,7 @@ const Navbar = () => {
 
     return (
         <NextUIProvider>
-            <header className="bg-[#FFFFFF]">
+            <header className="bg-white">
                 <nav className="flex flex-col items-center w-[90%] mx-auto py-4">
                     <div className="flex justify-between items-center w-full">
                         <div className="flex items-center">
@@ -58,6 +60,9 @@ const Navbar = () => {
                             )}
                             {session && (
                                 <>
+                                    <a className="flex flex-col text-2xl justify-center items-center" href='/cart'>
+                                        <NavbarCart/>
+                                    </a>
                                     <a className="flex flex-col text-2xl justify-center items-center" href='/userprofile'>
                                         <ProfileIcon/>
                                     </a>

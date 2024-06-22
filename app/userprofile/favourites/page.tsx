@@ -32,10 +32,6 @@ interface ProductListing {
   createdAt: Date;
 }
 
-export const metadata = {
-  title: "My Favourites",
-  description: "View your favourite products",
-};
 
 const MyFavouritesPage = async () => {
   const session = await getServerSession();

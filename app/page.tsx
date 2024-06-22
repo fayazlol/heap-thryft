@@ -41,7 +41,8 @@ export default async function Home() {
           <b className="text-blue-500 hover:underline">see all &rarr;</b>
         </Link>
           <div className='grid md:grid-cols-4 auto-rows-[300px] gap-4 px-4'>
-      <Card
+            
+        <Card
         className="w-full h-full overflow-hidden radius-lg md:col-span-2 relative"
         isHoverable
         isPressable
@@ -51,17 +52,21 @@ export default async function Home() {
             <Image
             isBlurred
               radius="lg"
-              width='100%'
+              width={maxHeaderSize}
               height='100%'
               alt='bags'
               className="w-full object-cover h-[230px]"
               src='/bags.png'
             />
+
           </CardBody>
+          <Link href="/categories/Bags">
           <CardFooter className="text-xl justify-start">
-            <b>bags</b>
+            <b className="text-xl text-black">bags</b>
           </CardFooter>
+          </Link>
       </Card>
+
 
       <Card
         className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"

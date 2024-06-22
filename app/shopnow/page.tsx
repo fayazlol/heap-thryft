@@ -6,6 +6,7 @@ import dbConnect from "../lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import User from "@/models/user"
+import CartButton from "../lib/ToggleCartButton";
 
 export default async function ShopNow(){
   const session = await getServerSession();
@@ -39,6 +40,9 @@ export default async function ShopNow(){
   >
     <div className="absolute top-2 right-2 z-20">
     <LikeIcon productId={alllistings._id} username={user.username} />
+    </div>
+    <div className="absolute top-2 left-2 z-20 ">
+    <CartButton productId={alllistings._id} username={user.username} />
     </div>
     <CardBody className="overflow-visible p-0">
     <Link href={`/listings/${alllistings._id}`}>

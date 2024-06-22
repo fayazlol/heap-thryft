@@ -1,22 +1,22 @@
 "use client";
 import { useState, useEffect } from 'react';
-import HeartIconOutline from '@/components/HeartIconOutline';
-import HeartIconSolid from '@/components/HeartIconSolid';
+import InCart from '../../components/InCart';
+import AddToCart from '../../components/AddToCart';
 
-interface LikeIconProps {
+interface CartButtonProps {
   productId: string;
   username: string;
   initialLiked?: boolean;
 }
 
-const ToggleLikeButton: React.FC<LikeIconProps> = ({ productId, username, initialLiked = false }) => {
+const CartButton: React.FC<CartButtonProps> = ({ productId, username, initialLiked = false }) => {
   const [liked, setLiked] = useState(initialLiked);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchInitialLikedStatus = async () => {
       try {
-        const response = await fetch(`/api/addfavourites?productId=${productId}&username=${username}`);
+        const response = await fetch(`/api/addtocart?productId=${productId}&username=${username}`);
         if (!response.ok) {
           throw new Error('Failed to fetch initial like status');
         }
@@ -34,7 +34,7 @@ const ToggleLikeButton: React.FC<LikeIconProps> = ({ productId, username, initia
 
   const handleToggle = async () => {
     try {
-      const response = await fetch(`/api/addfavourites`, {
+      const response = await fetch(`/api/addtocart`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,10 +58,19 @@ const ToggleLikeButton: React.FC<LikeIconProps> = ({ productId, username, initia
   }
 
   return (
-    <button aria-label="Like" onClick={handleToggle}>
-      {liked ? <HeartIconSolid /> : <HeartIconOutline />}
-    </button>
+    <div className="relative inline-block">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-white rounded-full shadow-lg w-8 h-8"></div>
+      </div>
+      <button
+        aria-label="Like"
+        onClick={handleToggle}
+        className="relative z-10 flex items-center justify-center w-8 h-8"
+      >
+        {liked ? <InCart /> : <AddToCart />}
+      </button>
+    </div>
   );
 };
 
-export default ToggleLikeButton;
+export default CartButton;
