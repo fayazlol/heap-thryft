@@ -49,18 +49,16 @@ const ProductListingSchema = new Schema({
     productImage4: {
         type: String,
     },
-    isMeetup: {
-        type: Boolean
-    },
-    meetupLocation:{
-        type: String
-    },
-    isDelivery: {
-        type: Boolean
+    productCondition: {
+        type: String,
+        required: true
     },
     deliveryCost: {
-        type: Number
+        type: Number,
+        required: true
     },
+    gender: { type: String, enum: ['Menswear', 'Womenswear', 'Unisex'], required: true },
+    
     isSold:{
         type: Boolean
     }

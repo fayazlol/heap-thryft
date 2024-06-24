@@ -17,11 +17,10 @@ interface ProductListingProps {
     category: string;
     productDescription: string;
     isDiscounted: boolean;
-    discountPrice: string;
-    isMeetup: boolean;
-    meetupLocation: string;
-    isDelivery: boolean;
+    discountPrice?: string;
     deliveryCost: string;
+    productCondition: string;
+    isSold: boolean;
     createdAt: Date;
   };
 }
@@ -37,7 +36,7 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing }) => {
             alt={listing.productName}
             width={600}
             height={600}
-            className="object-cover"
+            className="object-cover shadow-lg"
           />
         </div>
       </div>
@@ -62,6 +61,7 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing }) => {
         <b className="text-[#71717a] text-xs">Listed {formatDate(listing.createdAt)}</b>
         <Button className="bg-black text-white mb-4 w-full">PURCHASE</Button>
         <Divider/>
+        <p className="text-black mb-2">{listing.productDescription}</p>
         <div className="mt-8">
           <div className="flex items-center mb-4">
             <Image

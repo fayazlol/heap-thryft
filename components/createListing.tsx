@@ -1,8 +1,10 @@
+// components/createListing.tsx
 "use client";
-import { UploadButton } from "@/app/lib/uploadthing";
+
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@nextui-org/button";
+import { UploadButton } from "@/app/lib/uploadthing";
+import { Divider } from "@nextui-org/react";
 
 interface FormData {
   productName: string;
@@ -17,10 +19,9 @@ interface FormData {
   productDescription: string;
   isDiscounted: boolean;
   discountPrice?: string;
-  isMeetup: boolean;
-  meetupLocation?: string;
-  isDelivery: boolean;
-  deliveryCost?: string;
+  deliveryCost: string;
+  productCondition: string;
+  gender: 'Menswear' | 'Womenswear' | 'Unisex';
 }
 
 interface CreateListingProps {
@@ -40,19 +41,30 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
     productBrand: "",
     productSize: "",
     category: "Outerwear",
-    productDescription:"",
+    productDescription: "",
     isDiscounted: false,
-    isMeetup: false,
-    isDelivery: false,
+    discountPrice: "",
+    deliveryCost: "",
+    productCondition: "Brand New",
+    gender: 'Menswear', // Default value
   });
 
   const router = useRouter();
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    let formattedValue = value;
+
+    if (name === "price" || name === "discountPrice" || name === "deliveryCost") {
+      const regex = /^\d+(\.\d{0,2})?$/;
+      if (!regex.test(value)) {
+        return; // If the value does not match the regex, do not update the state
+      }
+    }
+
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: formattedValue,
     });
   };
 
@@ -85,10 +97,12 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
         productBrand: "",
         productSize: "",
         category: "Outerwear",
-        productDescription:"",
+        productDescription: "",
         isDiscounted: false,
-        isMeetup: false,
-        isDelivery: false,
+        discountPrice: "",
+        deliveryCost: "",
+        productCondition: "Brand New",
+        gender: 'Menswear', // Reset to default
       });
       router.push('/userprofile');
     }
@@ -97,9 +111,80 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
   return (
     <main className="bg-[#fafafa] min-h-screen">
       <div className="flex min-h-screen flex-col items-center justify-between p-24">
-        <div className="bg-white p-6 rounded-lg shadow-md w-[100]">
-          <h1 className="text-gray-600 mb-4 text-xl font-semibold">Create Listing</h1>
+        <div className="bg-white p-6 rounded-2xl shadow-2xl w-100 text-center">
+          <h1 className="text-black mb-4 text-4xl font-semibold">Create Listing</h1>
+          <Divider/>
           <form onSubmit={handleSubmit} className="mt-6">
+            <div className="grid md:grid-cols-2 auto-rows gap-0.5 px-4 py-2">
+              <div>
+                <h3 className="text-m font-semibold text-gray-600">Image 1 (Required)</h3>
+                <UploadButton
+                  endpoint="imageUploader"
+                  className=" mt-1 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
+                  onClientUploadComplete={(res) => {
+                    console.log("Files: ", res);
+                    setFormData({
+                      ...formData,
+                      productImage1: res[0].url, // Adjust based on the actual structure of res
+                    });
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </div>
+              <div>
+                <h3 className="text-m font-semibold text-gray-600">Image 2</h3>
+                <UploadButton
+                  endpoint="imageUploader"
+                  className=" mt-1 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
+                  onClientUploadComplete={(res) => {
+                    console.log("Files: ", res);
+                    setFormData({
+                      ...formData,
+                      productImage2: res[0].url, // Adjust based on the actual structure of res
+                    });
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </div>
+              <div>
+                <h3 className="text-m font-semibold text-gray-600">Image 3</h3>
+                <UploadButton
+                  endpoint="imageUploader"
+                  className=" mt-1 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
+                  onClientUploadComplete={(res) => {
+                    console.log("Files: ", res);
+                    setFormData({
+                      ...formData,
+                      productImage3: res[0].url, // Adjust based on the actual structure of res
+                    });
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </div>
+              <div>
+                <h3 className="text-m font-semibold text-gray-600">Image 4</h3>
+                <UploadButton
+                  endpoint="imageUploader"
+                  className=" mt-1 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
+                  onClientUploadComplete={(res) => {
+                    console.log("Files: ", res);
+                    setFormData({
+                      ...formData,
+                      productImage4: res[0].url, // Adjust based on the actual structure of res
+                    });
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </div>
+            </div>
             <input
               type="text"
               name="productName"
@@ -118,73 +203,6 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
               required
             />
-
-            <div className="grid md:grid-cols-2 auto-rows gap-1 px-4">
-            <UploadButton
-        endpoint="imageUploader"
-        className=" mt-4 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          setFormData({
-            ...formData,
-            productImage1: res[0].url, // Adjust based on the actual structure of res
-          });
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
-      <UploadButton
-        endpoint="imageUploader"
-        className=" mt-4 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          setFormData({
-            ...formData,
-            productImage2: res[0].url, // Adjust based on the actual structure of res
-          });
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
-      <UploadButton
-        endpoint="imageUploader"
-        className=" mt-4 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          setFormData({
-            ...formData,
-            productImage3: res[0].url, // Adjust based on the actual structure of res
-          });
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
-      <UploadButton
-        endpoint="imageUploader"
-        className=" mt-4 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          setFormData({
-            ...formData,
-            productImage4: res[0].url, // Adjust based on the actual structure of res
-          });
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
-      </div>
             <input
               type="text"
               name="productBrand"
@@ -192,6 +210,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               onChange={handleInputChange}
               placeholder="Brand"
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
+              required
             />
             <input
               type="text"
@@ -202,6 +221,20 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
               required
             />
+            <p className="text-left text-black">Product Condition</p>
+            <select
+              name="productCondition"
+              value={formData.productCondition}
+              onChange={handleInputChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
+              required
+            >
+              <option value="Brand New">Brand New</option>
+              <option value="Like New">Like new</option>
+              <option value="Lightly Used">Lightly Used</option>
+              <option value="Well Used">Well Used</option>
+              <option value="Heavily Used">Heavily Used</option>
+            </select>
             <p className="text-left text-black">Category</p>
             <select
               name="category"
@@ -218,13 +251,13 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               <option value="Bottoms">Bottoms</option>
               <option value="Others">Others</option>
             </select>
-            <input
-              type="text"
+            <textarea
               name="productDescription"
               value={formData.productDescription}
               onChange={handleInputChange}
-              placeholder="Description (REQUIRED IF NOT WONT ADD TO DB)"
-              className="flex w-full h-[100px] border border-gray-300 rounded px-3 py-2 mb-4 text-black"
+              placeholder="Product Description"
+              className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
+              required
             />
             <label className="flex items-center mb-4 text-black">
               <input
@@ -240,60 +273,38 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               <input
                 type="number"
                 name="discountPrice"
-                value={formData.discountPrice || ""}
+                value={formData.discountPrice}
                 onChange={handleInputChange}
                 placeholder="Discount Price"
                 className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
                 required
               />
             )}
-            <label className="flex items-center mb-4 text-black">
-              <input
-                type="checkbox"
-                name="isMeetup"
-                checked={formData.isMeetup}
-                onChange={handleCheckboxChange}
-                className="mr-2"
-              />
-              Meetup Available
-            </label>
-            {formData.isMeetup && (
-              <input
-                type="text"
-                name="meetupLocation"
-                value={formData.meetupLocation || ""}
-                onChange={handleInputChange}
-                placeholder="Meetup Location"
-                className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
-                required
-              />
-            )}
-            <label className="flex items-center mb-4 text-black">
-              <input
-                type="checkbox"
-                name="isDelivery"
-                checked={formData.isDelivery}
-                onChange={handleCheckboxChange}
-                className="mr-2"
-              />
-              Delivery Available
-            </label>
-            {formData.isDelivery && (
-              <input
-                type="number"
-                name="deliveryCost"
-                value={formData.deliveryCost || ""}
-                onChange={handleInputChange}
-                placeholder="Delivery Cost"
-                className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
-                required
-              />
-            )}
+            <input
+              type="number"
+              name="deliveryCost"
+              value={formData.deliveryCost}
+              onChange={handleInputChange}
+              placeholder="Delivery Cost"
+              className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
+              required
+            />
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
+              required
+            >
+              <option value="Menswear">Menswear</option>
+              <option value="Womenswear">Womenswear</option>
+              <option value="Unisex">Unisex</option>
+            </select>
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 "
             >
-              Submit
+              Post Listing!
             </button>
           </form>
         </div>

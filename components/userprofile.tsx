@@ -7,6 +7,7 @@ import dbConnect from "@/app/lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import User from "@/models/user";
+import CartButton from "@/app/lib/ToggleCartButton";
 
 interface UserProfileProps {
   user: {
@@ -17,22 +18,21 @@ interface UserProfileProps {
   listings: {
     _id: string;
     productName: string;
-    price: string;
-    productImage1: string;
-    productImage2: string;
-    productImage3: string;
-    productImage4: string;
-    productBrand: string;
-    productSize: string;
-    category: string;
-    productDescription: string;
-    isDiscounted: boolean;
-    discountPrice?: string;
-    isMeetup: boolean;
-    meetupLocation?: string;
-    isDelivery: boolean;
-    deliveryCost?: string;
-    createdAt: Date;
+  price: string;
+  productImage1: string;
+  productImage2: string;
+  productImage3: string;
+  productImage4: string;
+  productBrand: string;
+  productSize: string;
+  category: string;
+  productDescription: string;
+  isDiscounted: boolean;
+  discountPrice?: string;
+  deliveryCost: string;
+  productCondition: string;
+  isSold: boolean;
+  createdAt: Date;
   }[];
 }
 
@@ -80,8 +80,11 @@ const UserProfile: FC<UserProfileProps> = async ({ user, listings }) => {
                   isBlurred
                 >
                   <div className="absolute top-2 right-2 z-20">
-                    <LikeIcon productId={listing._id} username={CurrentUser.username} />
-                  </div>
+    <LikeIcon productId={listing._id} username={user.username} />
+    </div>
+    <div className="absolute top-2 left-2 z-20 shadow-s ">
+    <CartButton productId={listing._id} username={user.username} />
+    </div>
                   <CardBody className="overflow-visible p-0">
                     <Link href={`/listings/${listing._id}`}>
                       <div className="w-full h-[300px]">

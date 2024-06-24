@@ -5,7 +5,8 @@ import LikeIcon from "../lib/ToggleLikeButton";
 import dbConnect from "../lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import User from "@/models/user"
+import User from "@/models/user";
+import CartButton from "../lib/ToggleCartButton";
 
 export default async function OnSale(){
   const session = await getServerSession();
@@ -18,7 +19,6 @@ export default async function OnSale(){
   const user = await User.findOne({ email: session.user?.email });
 
   if (!user) {
-    redirect("/login");
     return null;
   }
     const salelistings = await ProductListing.find({ isDiscounted: true})
@@ -39,6 +39,9 @@ export default async function OnSale(){
   >
     <div className="absolute top-2 right-2 z-20">
     <LikeIcon productId={salelistings._id} username={user.username} />
+    </div>
+    <div className="absolute top-2 left-2 z-20 shadow-s ">
+    <CartButton productId={salelistings._id} username={user.username} />
     </div>
     <CardBody className="overflow-visible p-0">
     <Link href={`/listings/${salelistings._id}`}>
