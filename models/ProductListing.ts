@@ -53,12 +53,7 @@ const ProductListingSchema = new Schema({
         type: String,
         required: true
     },
-    deliveryCost: {
-        type: Number,
-        required: true
-    },
-    gender: { type: String, enum: ['Menswear', 'Womenswear', 'Unisex'], required: true },
-    
+    gender: { type: String, enum: ['Menswear', 'Womenswear', 'Unisex'], required: true },   
     isSold:{
         type: Boolean
     }

@@ -10,7 +10,6 @@ import User from "../../models/user";
 import Cart from "../../models/cart";
 import mongoose from "mongoose";
 import RemoveFromCartButton from "../lib/RemoveFromCartButton";
-import CheckoutButton from "@/components/CheckoutButton";
 
 interface ProductListing {
   _id: mongoose.Types.ObjectId;
@@ -117,7 +116,9 @@ const MyCartPage = async () => {
             <span className="text-black">Total Amount</span>
             <span className="text-black font-semibold">${total.toFixed(2)}</span>
           </div>
-          <CheckoutButton />
+          <Button className="text-black border bg-white py-3 w-full hover:bg-black hover:text-white hover:font-semibold">
+            Proceed to Checkout
+          </Button>
         </div>
       </div>
     </main>

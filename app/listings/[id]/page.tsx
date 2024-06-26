@@ -28,7 +28,7 @@ if (!user) {
   }
 //line 24-25 calls the UserProfile variable from components/userprofile.tsx, which contains code to render the page
   return (
-    <ProductListingPage listing={Listing} />
+    <ProductListingPage listing={Listing} sessionuser={user.username} />
   );
 };
 

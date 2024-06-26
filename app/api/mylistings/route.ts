@@ -15,17 +15,16 @@ interface ProductListing {
   category: string;
   productDescription: string;
   isDiscounted: boolean;
-  discountPrice: string;
-  isMeetup: boolean;
-  meetupLocation: string;
-  isDelivery: boolean;
-  deliveryCost: string;
+  discountPrice?: string;
+  productCondition: string;
+  gender: 'Menswear' | 'Womenswear' | 'Unisex';
+  createdAt: Date;
 }
 
 export async function GET(request: Request): Promise<NextResponse> {
     const { username,productName,price,productImage1,productImage2,productImage3,productImage4,productDescription,
-        productBrand,productSize,category,isDiscounted,discountPrice,isMeetup,meetupLocation,
-    isDelivery,deliveryCost }: ProductListing = await request.json();
+        productBrand,productSize,category,isDiscounted,discountPrice,productCondition,gender,
+    createdAt }: ProductListing = await request.json();
     await dbConnect();
     await ProductListing.find({username});
     return NextResponse.json({ message: "Product Found" }, { status: 201 });

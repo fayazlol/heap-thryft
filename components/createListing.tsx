@@ -19,7 +19,6 @@ interface FormData {
   productDescription: string;
   isDiscounted: boolean;
   discountPrice?: string;
-  deliveryCost: string;
   productCondition: string;
   gender: 'Menswear' | 'Womenswear' | 'Unisex';
 }
@@ -44,7 +43,6 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
     productDescription: "",
     isDiscounted: false,
     discountPrice: "",
-    deliveryCost: "",
     productCondition: "Brand New",
     gender: 'Menswear', // Default value
   });
@@ -55,7 +53,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
     const { name, value } = e.target;
     let formattedValue = value;
 
-    if (name === "price" || name === "discountPrice" || name === "deliveryCost") {
+    if (name === "price" || name === "discountPrice") {
       const regex = /^\d+(\.\d{0,2})?$/;
       if (!regex.test(value)) {
         return; // If the value does not match the regex, do not update the state
@@ -100,7 +98,6 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
         productDescription: "",
         isDiscounted: false,
         discountPrice: "",
-        deliveryCost: "",
         productCondition: "Brand New",
         gender: 'Menswear', // Reset to default
       });
@@ -280,15 +277,6 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
                 required
               />
             )}
-            <input
-              type="number"
-              name="deliveryCost"
-              value={formData.deliveryCost}
-              onChange={handleInputChange}
-              placeholder="Delivery Cost"
-              className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
-              required
-            />
             <select
               name="gender"
               value={formData.gender}
