@@ -47,6 +47,9 @@ const UserProfile = async () => {
           <Link href="/userprofile/createlisting">
             <p className="bg-[#8b5cf6] text-white py-2 px-4 rounded hover:bg-[#7c3aed]">Create Listings</p>
           </Link>
+          <Link href="/userprofile/editprofile">
+            <p className="bg-[#eab308] text-white py-2 px-4 rounded hover:bg-[#ca8a04]">Edit Profile</p>
+          </Link>
         </div>
       </div>
     </div>

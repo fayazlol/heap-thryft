@@ -1,23 +1,18 @@
 "use client";
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React from 'react';
 import { NextUIProvider } from "@nextui-org/system";
-import { Input } from "@nextui-org/input";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { LoginButton } from './loginbutton';
 import { LogoutButton } from './logoutbutton';
 import { SignupButton } from './signupbutton';
 import ProfileIcon from "@/components/profileIcon";
 import NavbarCart from "@/components/NavbarCart";
+import dynamic from 'next/dynamic';
+
+const SearchBar = dynamic(() => import('@/components/SearchBar'), { ssr: false });
 
 const Navbar = () => {
     const { data: session }: any = useSession();
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        console.log('Searching for:', searchQuery);
-    };
 
     return (
         <NextUIProvider>
@@ -48,20 +43,7 @@ const Navbar = () => {
                             </a>
                         </div>
                         <div className="flex flex-grow justify-center items-center gap-6">
-                            <form className="relative flex items-center w-[60%]" onSubmit={handleSearch}>
-                                <Input
-                                    radius='none'
-                                    size='sm'
-                                    type="search"
-                                    placeholder="Search"
-                                    className="pl-4 pr-12 py-2 border rounded-md w-full"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                                <button type="submit" className="absolute right-0 h-full px-4 text-white bg-gray-700 rounded-md hover:bg-gray-600">
-                                    Search
-                                </button>
-                            </form>
+                            <SearchBar />
                             <a href="/shopnow" className="px-4 py-2 text-black bg-transparent border border-black rounded-md hover:bg-gray-200 text-base">Shop Now</a>
                             <a href="/userprofile/createlisting" className=" px-4 py-2 text-white bg-gradient-to-r from-pink-500 to-blue-500 rounded-md hover:from-pink-600 hover:to-blue-600 text-base animated-gradient">Sell</a>
                         </div>

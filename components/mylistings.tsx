@@ -2,6 +2,10 @@ import React, { FC } from "react";
 import { formatDate } from "@/app/lib/formatDate";
 import { Card, Image, Link, CardFooter, CardBody, Divider } from "@nextui-org/react";
 import LikeIcon from "@/app/lib/ToggleLikeButton";
+import dynamic from 'next/dynamic';
+
+const EditListingButton = dynamic(() => import('@/app/lib/EditListingButton'), { ssr: false });
+const DeleteListingButton = dynamic(() => import('@/app/lib/DeleteListingButton'), { ssr: false });
 
 interface Listing {
   _id: string;
@@ -43,6 +47,10 @@ const Listings: FC<ListingsProps> = ({ listings }) => {
             >
               <div className="absolute top-2 right-2 z-20">
                 <LikeIcon productId={listing._id} username={listing.username} />
+              </div>
+              <div className="absolute top-2 left-2 z-20 flex flex-col space-y-2">
+                <EditListingButton productId={listing._id} />
+                <DeleteListingButton productId={listing._id} />
               </div>
               <CardBody className="overflow-visible p-0">
                 <Link href={`/listings/${listing._id}`}>

@@ -26,13 +26,16 @@ export default async function Home() {
       <main className="bg-[#fafafa] min-h-screen">
         <div className="flex flex-col w-full h-full items-center p-3">
           <div className="relative w-full max-w px-0.5">
-              <Image
-                alt="This is supposed to be a video"
-                className="object-cover w-full h-full rounded-"
-                height={maxHeaderSize}
-                width={maxHeaderSize}
-                src="/topvid.png"
-              />
+          <video
+                  className="object-cover w-full h-[500px] rounded-xl" 
+                  height="300px"
+                  width="300px"
+                  src="/videoplayback.mp4"
+                  muted
+                  loop
+                  autoPlay
+                  playsInline
+                />
               <div className="absolute inset-0 flex justify-center items-center z-10">
                 <Button size='lg' className="text-white" variant="ghost">
                   {"Explore Today's Hottest Pieces"}

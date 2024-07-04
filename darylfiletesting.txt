@@ -1,0 +1,14 @@
+download and run stripe cli
+
+
+npm install
+npm install stripe mongoose 
+npm install --save-dev @types/next @types/next-auth @types/stripe @types/mongoose 
+npm install next next-auth 
+npm install buffer 
+npm install stream
+npm install micro
+
+description attr mapped to name on mongo
+
+address not extracting, no new attributes getting passed to mongo neither

@@ -1,3 +1,4 @@
+// app/yourpage/page.tsx
 import React from "react";
 import ProductListing from "../../models/ProductListing";
 import { Card, Image, Link, CardFooter, CardBody } from "@nextui-org/react";
@@ -5,8 +6,9 @@ import dbConnect from "../lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import User from "../../models/user";
+import PaginationControls from "../../components/PaginationControls";
 
-export default async function AllUsers() {
+export default async function AllUsers({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
   const session = await getServerSession();
   if (!session) {
     redirect("/login");
@@ -19,17 +21,22 @@ export default async function AllUsers() {
   if (!user) {
     return null;
   }
-  
-  const allusers = await User.find();
+
+  const page = parseInt(searchParams.page || '1', 10);
+  const limit = 20;
+  const skip = (page - 1) * limit;
+
+  const allUsersCount = await User.countDocuments({});
+  const allusers = await User.find().skip(skip).limit(limit);
   const userWithListings = await Promise.all(
     allusers.map(async (user) => {
       const numberOfListings = await ProductListing.countDocuments({ username: user.username });
-      return { ...user.toObject(), numberOfListings }; 
+      return { ...user.toObject(), numberOfListings };
     })
   );
 
   return (
-    <main className="bg-[#fafafa] min-h-screen"> 
+    <main className="bg-[#fafafa] min-h-screen">
       <h1 className="flex justify-center items-center text-black text-4xl font-semibold py-10 mb-5">All Users</h1>
       <div>
         <div className='grid md:grid-cols-5 auto-rows-[300px] gap-4 px-4'>
@@ -53,7 +60,7 @@ export default async function AllUsers() {
                   />
                 </CardBody>
                 <CardFooter className="justify-center flex flex-col items-center">
-                  <b className="text-xl" >@{user.username}</b>
+                  <b className="text-xl">@{user.username}</b>
                   <p className="text-md">
                     {user.numberOfListings === 0 && "No Listings"}
                     {user.numberOfListings === 1 && "1 Listing"}
@@ -65,6 +72,10 @@ export default async function AllUsers() {
           ))}
         </div>
       </div>
+      <PaginationControls 
+        currentPage={page} 
+        totalPages={Math.ceil(allUsersCount / limit)} 
+      />
       <div className="py-48"></div>
     </main>
   );

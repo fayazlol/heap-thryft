@@ -25,7 +25,7 @@ const ShopByUsers: React.FC<ShopByUsersProps> = ({ users }) => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <b className="text-2xl text-black px-4 py-4">Shop by Users</b>
-        <Link href="/users" className="flex justify-end px-5">
+        <Link href="/allusers" className="flex justify-end px-5">
           <b className="text-blue-500 hover:underline">see all &rarr;</b>
         </Link>
       </div>

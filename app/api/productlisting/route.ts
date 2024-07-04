@@ -21,11 +21,47 @@ interface ProductListing {
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
-    const { username,productName,price,productImage1,productImage2,productImage3,productImage4,productDescription,
-        productBrand,productSize,category,isDiscounted,discountPrice,productCondition,
-    gender }: ProductListing = await request.json();
+    const { username, productName, price, productImage1, productImage2, productImage3, productImage4, productDescription,
+        productBrand, productSize, category, isDiscounted, discountPrice, productCondition, gender }: ProductListing = await request.json();
     await dbConnect();
-    await ProductListing.create({ username,productName,price,productImage1,productImage2,productImage3,productImage4,productDescription,
-        productBrand,productSize,category,isDiscounted,discountPrice,productCondition,gender});
+    await ProductListing.create({ username, productName, price, productImage1, productImage2, productImage3, productImage4, productDescription,
+        productBrand, productSize, category, isDiscounted, discountPrice, productCondition, gender });
     return NextResponse.json({ message: "Product Created" }, { status: 201 });
+}
+
+export async function GET(request: Request): Promise<NextResponse> {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    await dbConnect();
+    const listing = await ProductListing.findById(id);
+    if (!listing) {
+        return NextResponse.json({ message: "Listing not found" }, { status: 404 });
+    }
+    return NextResponse.json(listing, { status: 200 });
+}
+
+export async function PUT(request: Request): Promise<NextResponse> {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    const updateData: ProductListing = await request.json();
+    await dbConnect();
+    const listing = await ProductListing.findByIdAndUpdate(id, updateData, {
+        new: true,
+        runValidators: true,
+    });
+    if (!listing) {
+        return NextResponse.json({ message: "Listing not found" }, { status: 404 });
+    }
+    return NextResponse.json({ message: "Product Updated" }, { status: 200 });
+}
+
+export async function DELETE(request: Request): Promise<NextResponse> {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    await dbConnect();
+    const listing = await ProductListing.findByIdAndDelete(id);
+    if (!listing) {
+        return NextResponse.json({ message: "Listing not found" }, { status: 404 });
+    }
+    return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
 }
