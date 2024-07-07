@@ -1,28 +1,27 @@
-import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/app/lib/dbConnect";
-import Order from "@/models/order";
+// app/api/orders/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/app/lib/dbConnect';
+import Order from '@/models/order';
+import { getServerSession } from 'next-auth';
+import User from '@/models/user';
 
-export async function POST(req: NextRequest) {
-  try {
-    await dbConnect();
-    const { username, productId, isReceived = false, isSent = false } = await req.json();
+export async function GET(req: NextRequest) {
+  await dbConnect();
 
-    if (!username || !productId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-    }
+  const session = await getServerSession({ req });
 
-    const newOrder = new Order({
-      username,
-      productId,
-      isReceived,
-      isSent,
-    });
-
-    await newOrder.save();
-
-    return NextResponse.json({ success: true, order: newOrder }, { status: 201 });
-  } catch (error) {
-    console.error("Error creating order:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  const user = await User.findOne({ email: session.user?.email });
+
+  if (!user) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 });
+  }
+
+  const toReceiveOrders = await Order.find({ buyer: user.username });
+  const toSendOrders = await Order.find({ seller: user.username });
+
+  return NextResponse.json({ success: true, toReceive: toReceiveOrders, toSend: toSendOrders }, { status: 200 });
 }

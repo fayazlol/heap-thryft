@@ -11,6 +11,8 @@ export async function POST(req: NextRequest) {
 
     const filterCriteria: any = {
       gender: { $in: ['Menswear', 'Unisex'] },
+      isSold: false
+
     };
 
     if (categories && categories.length > 0) {

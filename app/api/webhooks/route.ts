@@ -5,7 +5,10 @@ import Stripe from "stripe";
 import { buffer } from "stream/consumers";
 import dbConnect from "../../lib/dbConnect";
 import Order from "../../../models/order";  // Import your Order model
-
+import User from '../../../models/user';
+import Cart from "../../../models/cart";
+import mongoose from "mongoose";
+import ProductListing from "@/models/ProductListing";
 
 
 const stripe = new Stripe(process.env.NEXT_TEST_STRIPE_SECRET_KEY as string, {
@@ -49,6 +52,7 @@ export async function POST(req: NextRequest) {
     }
 
     await dbConnect();  // Ensure DB connection
+  
 
     const buf = await readRequestBody(req);
     const sig = req.headers.get("stripe-signature");
@@ -78,16 +82,37 @@ export async function POST(req: NextRequest) {
       
 
       if (!lineItems) return new NextResponse("Internal Server Error", { status: 500 });
+      //          address: (event.data.object as any).customer_details['address'],
+
+
+
 
       try {
-        const newOrder = new Order({
-          email: (event.data.object as any).customer_details.email,
-          address: (event.data.object as any).customer_details.address,
-          test: "see if this gets into mongo test",
-          created: (event.data.object as any).created,
-          lineItems: lineItems.data,
-        });
-        await newOrder.save();  // Save the new order to MongoDB
+        const lineItemsData = lineItems.data;
+      
+        for (const item of lineItemsData) {
+          const CartItem = await Cart.findById(item.description);
+          const buyerusername = CartItem.username;
+          const product= await ProductListing.findById(CartItem.productId.toString());
+          const sellerusername = product.username;
+
+
+
+          const newOrder = new Order({
+            buyer: buyerusername,
+            seller: sellerusername,
+            address:(event.data.object as any).customer_details['address'],
+            email: (event.data.object as any).customer_details.email,
+            isSent: false,
+            isReceived: false,
+            xyz: "see if this gets into mongo test",
+            created: (event.data.object as any).created,
+            cartId: item.description,
+            productId: CartItem.productId.toString()
+          });
+      
+          await newOrder.save();  // Save each new order to MongoDB
+        }
 
         console.log("Fulfill the order with custom logic");
         console.log("data", lineItems.data);

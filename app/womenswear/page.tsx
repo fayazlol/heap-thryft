@@ -22,7 +22,8 @@ export default async function WomenswearPage() {
     return null;
   }
 
-  const initialListings = await ProductListing.find({ gender: { $in: ['Womenswear', 'Unisex'] } });
+  const initialListings = await ProductListing.find({ gender: { $in: ['Womenswear', 'Unisex'] },    isSold: false
+});
 
   return <WomenswearClient user={user} initialListings={initialListings} />;
 }

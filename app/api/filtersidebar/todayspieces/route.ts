@@ -9,9 +9,12 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { categories, conditions, minPrice, maxPrice, page, itemsPerPage } = body;
 
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
     const filterCriteria: any = {
-      gender: { $in: ['Womenswear', 'Unisex'] },
+      createdAt: { $gte: twentyFourHoursAgo },
       isSold: false
+
     };
 
     if (categories && categories.length > 0) {

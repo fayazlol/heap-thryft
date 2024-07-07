@@ -22,10 +22,9 @@ interface Listing {
   productCondition: string;
   gender: 'Menswear' | 'Womenswear' | 'Unisex';
   createdAt: Date;
-  isSold: boolean;
 }
 
-interface ShopNowProps {
+interface TodaysPiecesProps {
   user: {
     username: string;
   };
@@ -34,7 +33,7 @@ interface ShopNowProps {
 
 const ITEMS_PER_PAGE = 12;
 
-const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
+const TodaysPiecesClient: React.FC<TodaysPiecesProps> = ({ user, alllistings }) => {
   const [listings, setListings] = useState<Listing[]>(alllistings);
   const [listingsCount, setListingsCount] = useState(alllistings.length);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,7 +46,7 @@ const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
 
   const fetchListings = async () => {
     try {
-      const response = await fetch('/api/filtersidebar/shopnow', {
+      const response = await fetch('/api/filtersidebar/todayspieces', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +87,7 @@ const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
       <div className="flex bg-white text-black">
         <FilterSidebar onFilter={handleFilter} />
         <main className="w-4/5 p-4 text-black">
-          <h1 className="text-2xl font-bold mb-4">On Sale</h1>
+          <h1 className="text-2xl font-bold mb-4">Latest Drops</h1>
           <div className='grid md:grid-cols-4 gap-4'>
             {listings.length > 0 ? (
               listings.map((listing) => (
@@ -162,4 +161,4 @@ const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
   );
 };
 
-export default ShopNowClient;
+export default TodaysPiecesClient;

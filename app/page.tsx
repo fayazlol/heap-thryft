@@ -10,7 +10,8 @@ import ShopByUsers from "@/components/ShopByUsers";
 import User from "@/models/user";
 import ProductListing from "@/models/ProductListing";
 import { formatDate } from "./lib/formatDate";
-
+import ShopByCategory from "@/components/ShopByCategory";
+import Footer from "@/components/Footer";
 
 
 export default async function Home() {
@@ -37,7 +38,7 @@ export default async function Home() {
                   playsInline
                 />
               <div className="absolute inset-0 flex justify-center items-center z-10">
-                <Button size='lg' className="text-white" variant="ghost">
+                <Button size='lg' className="text-white" variant="ghost" href='/todayspieces' as={Link}>
                   {"Explore Today's Hottest Pieces"}
                 </Button>
               </div>
@@ -46,146 +47,8 @@ export default async function Home() {
           <div className="flex flex-col justify-start">
             <b className="text-2xl text-black px-4 py-4">Shop by Category</b>
           </div>
-          <div className='grid md:grid-cols-4 auto-rows-[300px] gap-4 px-4'>
-        <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-2 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-         <CardBody className="overflow-visible p-0">
-            <Image
-            isBlurred
-              radius="lg"
-              width={maxHeaderSize}
-              height='100%'
-              alt='bags'
-              className="w-full object-cover h-[230px]"
-              src='/bags.png'
-            />
-
-          </CardBody>
-          <Link href="/categories/Bags">
-          <CardFooter className="text-xl justify-start">
-            <b className="text-xl text-black">bags</b>
-          </CardFooter>
-          </Link>
-      </Card>
-
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='footwear'
-              className="w-full object-cover h-[230px]"
-              src='/footwear.png'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-end">
-            <b>footwear</b>
-          </CardFooter>
-
-      </Card>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:row-span-2 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='outerwear'
-              className="w-full object-cover h-[550px]"
-              src='/outerwear.png'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-end">
-            <b>outerwear</b>
-          </CardFooter>
-      </Card>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='accessories'
-              className="w-full object-cover h-[230px]"
-              src='/accessories.png'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-start">
-            <b>accessories</b>
-          </CardFooter>
-      </Card>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='bottoms'
-              className="w-full object-cover h-[230px]"
-              src='/bottoms.png'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-start">
-            <b>bottoms</b>
-          </CardFooter>
-      </Card>
-
-      <Card
-        className="w-full h-full overflow-hidden radius-lg md:col-span-1 relative"
-        isHoverable
-        isPressable
-        isBlurred
-      >
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isBlurred
-              radius="lg"
-              width='100%'
-              height='100%'
-              alt='tops'
-              className="w-full object-cover h-[230px]"
-              src='/tops.png'
-            />
-          </CardBody>
-          <CardFooter className=" text-xl  justify-end">
-            <b>tops</b>
-          </CardFooter>
-      </Card>
-    </div>
-    <div className="flex flex-col justify-start py-10">
-    </div>
+          <ShopByCategory/>
+          <div className="flex flex-col justify-start py-10"></div>
 
 {/*shop by stores part*/}
       <ShopByUsers users={users} />
@@ -258,11 +121,7 @@ export default async function Home() {
                 width={maxHeaderSize}
                 src="/bottompic.png"
               />
-              <div className="absolute inset-0 flex justify-center items-end z-10">
-                <Card className="bg-white w-full h-[100px]" >
-                  {"temporary footer, will make later :)"}
-                </Card>
-              </div>
+              <Footer/>
             </div>
           </div>
     

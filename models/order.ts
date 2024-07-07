@@ -4,17 +4,22 @@ const { Schema } = mongoose;
 
 const OrderSchema= new Schema(
   {
-    username: {
+    buyer: {
         type: String,
         required: true,
       },
-
-      productId: {
-        type: mongoose.Types.ObjectId,
-        ref: "ProductListing", 
+      seller: {
+        type: String,
         required: true,
       },
-
+      address: {
+        type: Schema.Types.Mixed,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
       isSent: {
         type: Boolean,
         required: true,
@@ -23,6 +28,23 @@ const OrderSchema= new Schema(
         type: Boolean,
         required: true,
       },
+      xyz: {
+        type: String,
+        required: true,
+      },
+      created: {
+        type: Number,  // Assuming it's a timestamp
+        required: true,
+      },
+      cartId: {
+        type: String,
+        required: true,
+      },
+      productId: {
+        type: String,
+        required: true,
+      },
+
   },
   { timestamps: true }
 );

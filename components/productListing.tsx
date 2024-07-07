@@ -24,6 +24,7 @@ interface ProductListingProps {
     productCondition: string;
     gender: 'Menswear' | 'Womenswear' | 'Unisex';
     createdAt: Date;
+    isSold: boolean;
   };
   sessionuser: string;
 }
@@ -59,7 +60,6 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
           />
           <button
             className="absolute left-[-10px] top-1/2 z-20 transform -translate-y-1/2 bg-black text-white p-2 rounded-xl"
-            
             onClick={handlePreviousImage}
           >
             {"<"}
@@ -91,7 +91,11 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
           <Divider />
           <p className="text-black mb-2 py-4">{listing.productDescription}</p>
           <div className="w-full">
-            <ListingCartButton productId={listing._id} username={sessionuser} />
+            {listing.isSold ? (
+              <div className="bg-red-500 text-white p-2 text-center rounded-xl mb-2">Item has been sold</div>
+            ) : (
+              <ListingCartButton productId={listing._id} username={sessionuser} />
+            )}
           </div>
           <div className="w-full">
             <ListingLikeButton productId={listing._id} username={sessionuser} />
@@ -111,7 +115,6 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
                 </Link>
               </div>
             </div>
-            <Button className="bg-black text-white w-full">FOLLOW</Button>
           </div>
         </div>
       </div>

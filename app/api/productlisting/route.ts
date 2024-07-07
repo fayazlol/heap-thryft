@@ -18,6 +18,7 @@ interface ProductListing {
     discountPrice?: string;
     productCondition: string;
     gender: 'Menswear' | 'Womenswear' | 'Unisex';
+    isSold: boolean;
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -25,7 +26,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         productBrand, productSize, category, isDiscounted, discountPrice, productCondition, gender }: ProductListing = await request.json();
     await dbConnect();
     await ProductListing.create({ username, productName, price, productImage1, productImage2, productImage3, productImage4, productDescription,
-        productBrand, productSize, category, isDiscounted, discountPrice, productCondition, gender });
+        productBrand, productSize, category, isDiscounted, discountPrice, productCondition, gender, isSold: false });
     return NextResponse.json({ message: "Product Created" }, { status: 201 });
 }
 

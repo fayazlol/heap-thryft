@@ -4,7 +4,6 @@ import dbConnect from '../../app/lib/dbConnect';
 import User from '../../models/user';
 import ProductListing from '../../models/ProductListing';
 import MenswearClient from '../../components/MenswearClient';
-import PaginationControls from '../../components/PaginationControls2'
 
 
 
@@ -23,7 +22,8 @@ export default async function MenswearPage() {
     return null;
   }
 
-  const initialListings = await ProductListing.find({ gender: { $in: ['Menswear', 'Unisex'] } });
+  const initialListings = await ProductListing.find({ gender: { $in: ['Menswear', 'Unisex'] },    isSold: false
+});
 
   return <MenswearClient user={user} initialListings={initialListings} />;
 }

@@ -5,7 +5,7 @@ import { Card, CardBody, CardFooter, Image, Link, Divider, Button } from "@nextu
 import LikeIcon from '../app/lib/ToggleLikeButton';
 import CartButton from "../app/lib/ToggleCartButton";
 import { formatDate } from '../app/lib/formatDate';
-import FilterSidebar from './FilterSidebar';
+import CatFilterSidebar from './CatFilterSidebar';
 
 interface Listing {
   _id: string;
@@ -22,19 +22,19 @@ interface Listing {
   productCondition: string;
   gender: 'Menswear' | 'Womenswear' | 'Unisex';
   createdAt: Date;
-  isSold: boolean;
 }
 
-interface ShopNowProps {
+interface CategoryProps {
   user: {
     username: string;
   };
   alllistings: Listing[];
+  category: string;
 }
 
 const ITEMS_PER_PAGE = 12;
 
-const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
+const CategoryClient: React.FC<CategoryProps> = ({ user, alllistings, category }) => {
   const [listings, setListings] = useState<Listing[]>(alllistings);
   const [listingsCount, setListingsCount] = useState(alllistings.length);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,12 +47,12 @@ const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
 
   const fetchListings = async () => {
     try {
-      const response = await fetch('/api/filtersidebar/shopnow', {
+      const response = await fetch('/api/filtersidebar/category', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...filters, page: currentPage, itemsPerPage: ITEMS_PER_PAGE }),
+        body: JSON.stringify({ ...filters, page: currentPage, itemsPerPage: ITEMS_PER_PAGE, category }),
       });
 
       const data = await response.json();
@@ -86,9 +86,9 @@ const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
   return (
     <main className="bg-[#fafafa] min-h-screen">
       <div className="flex bg-white text-black">
-        <FilterSidebar onFilter={handleFilter} />
+        <CatFilterSidebar onFilter={handleFilter} />
         <main className="w-4/5 p-4 text-black">
-          <h1 className="text-2xl font-bold mb-4">On Sale</h1>
+          <h1 className="text-2xl font-bold mb-4">{category}</h1>
           <div className='grid md:grid-cols-4 gap-4'>
             {listings.length > 0 ? (
               listings.map((listing) => (
@@ -162,4 +162,4 @@ const ShopNowClient: React.FC<ShopNowProps> = ({ user, alllistings }) => {
   );
 };
 
-export default ShopNowClient;
+export default CategoryClient;

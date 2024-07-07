@@ -1,6 +1,7 @@
-import React, { FC } from "react";
+"use client"
+import React, { FC, useState } from "react";
 import { formatDate } from "@/app/lib/formatDate";
-import { Card, Image, Link, CardFooter, CardBody, Divider } from "@nextui-org/react";
+import { Card, Image, Link, CardFooter, CardBody, Divider, Button } from "@nextui-org/react";
 import LikeIcon from "@/app/lib/ToggleLikeButton";
 import dynamic from 'next/dynamic';
 
@@ -27,18 +28,40 @@ interface Listing {
   isDelivery: boolean;
   deliveryCost: string;
   createdAt: Date;
+  isSold: boolean;
 }
 
 interface ListingsProps {
   listings: Listing[];
 }
 
+const ITEMS_PER_PAGE = 10;
+
 const Listings: FC<ListingsProps> = ({ listings }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(listings.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentListings = listings.slice(startIndex, endIndex);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center justify-center">
       <div className="grid md:grid-cols-5 auto-rows-[400px] gap-4 px-4">
-        {listings.length > 0 ? (
-          listings.map((listing) => (
+        {currentListings.length > 0 ? (
+          currentListings.map((listing) => (
             <Card
               key={listing._id}
               className="w-full h-full overflow-hidden radius-lg relative"
@@ -49,8 +72,17 @@ const Listings: FC<ListingsProps> = ({ listings }) => {
                 <LikeIcon productId={listing._id} username={listing.username} />
               </div>
               <div className="absolute top-2 left-2 z-20 flex flex-col space-y-2">
-                <EditListingButton productId={listing._id} />
-                <DeleteListingButton productId={listing._id} />
+                {listing.isSold ? (
+                  <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start">
+                    <span className="bg-red-500 text-white py-1 px-3 rounded-xl">sold</span>
+                  </div>
+                ) : (
+                  <>
+                    <EditListingButton productId={listing._id} />
+                    <DeleteListingButton productId={listing._id} />
+                    
+                  </>
+                )}
               </div>
               <CardBody className="overflow-visible p-0">
                 <Link href={`/listings/${listing._id}`}>
@@ -94,6 +126,15 @@ const Listings: FC<ListingsProps> = ({ listings }) => {
         ) : (
           <p>No listings found.</p>
         )}
+      </div>
+      <div className="flex items-center justify-center mt-4">
+        <Button radius="full" disabled={currentPage === 1} onPress={handlePreviousPage}>
+          ←
+        </Button>
+        <span className="mx-4 text-black">{currentPage} / {totalPages}</span>
+        <Button radius="full" disabled={currentPage === totalPages} onPress={handleNextPage}>
+          →
+        </Button>
       </div>
     </div>
   );

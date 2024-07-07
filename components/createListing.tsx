@@ -21,6 +21,7 @@ interface FormData {
   discountPrice?: string;
   productCondition: string;
   gender: 'Menswear' | 'Womenswear' | 'Unisex';
+  isSold: boolean;
 }
 
 interface CreateListingProps {
@@ -45,6 +46,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
     discountPrice: "",
     productCondition: "Brand New",
     gender: 'Menswear', // Default value
+    isSold: false,
   });
 
   const router = useRouter();
@@ -100,6 +102,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
         discountPrice: "",
         productCondition: "Brand New",
         gender: 'Menswear', // Reset to default
+        isSold: false,
       });
       router.push('/userprofile');
     }

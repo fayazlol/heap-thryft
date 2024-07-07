@@ -31,28 +31,35 @@ export async function POST(req: NextRequest) {
     }
 
     const cartItems = await Cart.find({ username: user.username });
-    const productIds = cartItems.map(cart => cart.productId);
-    const productListings = await ProductListing.find({ _id: { $in: productIds } });
+const productIds = cartItems.map(cart => cart.productId);
+const productListings = await ProductListing.find({ _id: { $in: productIds } });
 
-    if (!productListings.length) {
-      return new NextResponse("Cart is empty", { status: 400 });
-    }
+if (!productListings.length) {
+  return new NextResponse("Cart is empty", { status: 400 });
+}
 
-    const lineItems = productListings.map(listing => ({
-      price_data: {
-        currency: "sgd",
-        product_data: {
-          name: listing.productName,
-          metadata: {
-            productId: listing._id.toString(),
-            ...(listing.productSize && { size: listing.productSize }),
-            ...(listing.productBrand && { brand: listing.productBrand }),
-          },
+const lineItems = cartItems.map(cartItem => {
+  const product = productListings.find(listing => listing._id.equals(cartItem.productId));
+  if (!product) {
+    throw new Error(`Product with ID ${cartItem.productId} not found in listings`);
+  }
+  
+  return {
+    price_data: {
+      currency: "sgd",
+      product_data: {
+        name: cartItem._id.toString(),  
+        description: product.productName,
+        metadata: {
+          id: product._id.toString(),
         },
-        unit_amount: listing.isDiscounted ? parseFloat(listing.discountPrice) * 100 : parseFloat(listing.price) * 100,
       },
-      quantity: 1, // Assuming quantity is 1, update as necessary
-    }));
+      unit_amount: product.isDiscounted ? parseFloat(product.discountPrice) * 100 : parseFloat(product.price) * 100,
+    },
+    quantity: 1, 
+  };
+});
+
 
     const totalAmount = lineItems.reduce((total, item) => total + item.price_data.unit_amount, 0);
 
@@ -78,6 +85,7 @@ export async function POST(req: NextRequest) {
       client_reference_id: user._id.toString(),
       success_url: `${process.env.NEXTAUTH_URL}/payment_success`,
       cancel_url: `${process.env.NEXTAUTH_URL}/cart`,
+      
     });
 
     return NextResponse.json(stripeSession, { headers: corsHeaders });
@@ -86,3 +94,4 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
+

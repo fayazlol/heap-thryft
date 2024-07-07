@@ -21,7 +21,8 @@ export default async function OnSale() {
     return null;
   }
 
-  const salelistings = await ProductListing.find({ isDiscounted: true });
+  const salelistings = await ProductListing.find({ isDiscounted: true,    isSold: false
+  });
 
   return <OnSaleClient user={user} salelistings={salelistings} />;
 }

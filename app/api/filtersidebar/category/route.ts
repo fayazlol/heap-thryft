@@ -7,16 +7,12 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { categories, conditions, minPrice, maxPrice, page, itemsPerPage } = body;
+    const { category, conditions, minPrice, maxPrice, page, itemsPerPage } = body;
 
     const filterCriteria: any = {
-      gender: { $in: ['Womenswear', 'Unisex'] },
+      category: { $regex: category, $options: 'i' },
       isSold: false
     };
-
-    if (categories && categories.length > 0) {
-      filterCriteria.category = { $in: categories };
-    }
 
     if (conditions && conditions.length > 0) {
       filterCriteria.productCondition = { $in: conditions };

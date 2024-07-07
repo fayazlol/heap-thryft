@@ -1,13 +1,14 @@
-// app/userprofile/orders/page.tsx
-
+// app/orders/page.tsx
 import React from 'react';
+import dbConnect from '@/app/lib/dbConnect';
+import Order from "../../../models/order"
+import ProductListing from '@/models/ProductListing';
+import User from '@/models/user';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import dbConnect from '../../../app/lib/dbConnect';
-import User from '../../../models/user';
-import OrdersComponent from '../../../components/OrdersComponent';
+import OrdersClient from "../../../components/OrdersClient";
 
-const MyOrdersPage = async () => {
+const OrdersPage = async () => {
   const session = await getServerSession();
   if (!session) {
     redirect('/');
@@ -16,14 +17,20 @@ const MyOrdersPage = async () => {
 
   await dbConnect();
   const user = await User.findOne({ email: session.user?.email });
-
   if (!user) {
     redirect('/');
     return null;
   }
 
-  const userData = { username: user.username, email: user.email };
-  return <OrdersComponent user={userData} />;
+  const orders = await Order.find({ $or: [{ buyer: user.username }, { seller: user.username }] }).lean();
+  const products = await ProductListing.find({ _id: { $in: orders.map(order => order.productId) } }).lean();
+
+  const ordersWithProducts = orders.map(order => ({
+    ...order,
+    product: products.find(product => product._id.toString() === order.productId.toString()),
+  }));
+
+  return <OrdersClient user={user} orders={ordersWithProducts} />;
 };
 
-export default MyOrdersPage;
+export default OrdersPage;

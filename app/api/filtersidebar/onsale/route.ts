@@ -10,7 +10,9 @@ export async function POST(req: NextRequest) {
     const { categories, conditions, minPrice, maxPrice, page, itemsPerPage } = body;
 
     const filterCriteria: any = {
-      isDiscounted: true
+      isDiscounted: true,
+      isSold: false
+
     };
 
     if (categories && categories.length > 0) {

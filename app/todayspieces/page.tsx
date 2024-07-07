@@ -5,7 +5,7 @@ import dbConnect from "../lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import User from "../../models/user";
-import ShopNowClient from "../../components/ShopNowClient";
+import TodaysPiecesClient from "../../components/TodaysPiecesClient";
 
 export default async function ShopNow() {
   const session = await getServerSession();
@@ -21,8 +21,11 @@ export default async function ShopNow() {
     return null;
   }
 
-  const alllistings = await ProductListing.find({    isSold: false
+  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const alllistings = await ProductListing.find({
+    createdAt: { $gte: twentyFourHoursAgo },
+    isSold: false
   });
 
-  return <ShopNowClient user={user} alllistings={alllistings} />;
+  return <TodaysPiecesClient user={user} alllistings={alllistings} />;
 }

@@ -79,12 +79,22 @@ const UserProfile: FC<UserProfileProps> = async ({ user, listings }) => {
                   isHoverable
                   isBlurred
                 >
-                  <div className="absolute top-2 right-2 z-20">
-    <LikeIcon productId={listing._id} username={user.username} />
+                 {listing.isSold ? (
+  <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start ml-2 mt-2">
+    <span className="bg-red-500 text-white py-1 px-3 rounded-xl z-20 ">s o l d</span>
+  </div>
+) : (
+  <>
+    <div className="absolute top-2 right-2 z-20">                
+      <LikeIcon productId={listing._id} username={user.username} />
     </div>
-    <div className="absolute top-2 left-2 z-20 shadow-s ">
-    <CartButton productId={listing._id} username={user.username} />
+    <div className="absolute top-2 left-2 z-20 shadow-s">
+      <CartButton productId={listing._id} username={user.username} />
     </div>
+  </>
+)}
+
+                
                   <CardBody className="overflow-visible p-0">
                     <Link href={`/listings/${listing._id}`}>
                       <div className="w-full h-[300px]">
