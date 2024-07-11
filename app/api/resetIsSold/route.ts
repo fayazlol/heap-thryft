@@ -1,3 +1,4 @@
+//used for testing
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import ProductListing from '@/models/ProductListing';

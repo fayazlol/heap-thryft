@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/app/lib/dbConnect";
 
 export const POST = async (request: any) => {
-  const { username, email, password, profilepicture } = await request.json();
+  const { username, email, password, profilepicture,bannerpicture,bio } = await request.json();
 
   await dbConnect();
 
@@ -23,12 +23,17 @@ export const POST = async (request: any) => {
 
   const hashedPassword = await bcrypt.hash(password, 5);
   const defaultpic = '/defaultpfp.jpeg'
+  const defaultbanner = '/bottompic.png'
+
 
   const newUser = new User({
     username,
     email,
     password: hashedPassword,
-    profilepicture: defaultpic
+    profilepicture: defaultpic,
+    bannerpicture: defaultbanner,
+    bio: "No Bio Yet."
+
   });
 
   try {

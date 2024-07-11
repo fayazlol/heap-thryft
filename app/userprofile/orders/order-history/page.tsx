@@ -1,4 +1,3 @@
-// order-history/page.tsx
 import React from "react";
 import dbConnect from "@/app/lib/dbConnect";
 import { getServerSession } from "next-auth";

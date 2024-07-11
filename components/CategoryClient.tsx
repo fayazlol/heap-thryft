@@ -68,7 +68,7 @@ const CategoryClient: React.FC<CategoryProps> = ({ user, alllistings, category }
 
   const handleFilter = (newFilters: any) => {
     setFilters(newFilters);
-    setCurrentPage(1); // Reset to the first page when filters change
+    setCurrentPage(1); 
   };
 
   const handleNextPage = () => {

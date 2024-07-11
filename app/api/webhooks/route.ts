@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { buffer } from "stream/consumers";
 import dbConnect from "../../lib/dbConnect";
-import Order from "../../../models/order";  // Import your Order model
+import Order from "../../../models/order";  
 import User from '../../../models/user';
 import Cart from "../../../models/cart";
 import mongoose from "mongoose";
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Only POST requests allowed", { status: 405 });
     }
 
-    await dbConnect();  // Ensure DB connection
+    await dbConnect();  
   
 
     const buf = await readRequestBody(req);
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
             productId: CartItem.productId.toString()
           });
       
-          await newOrder.save();  // Save each new order to MongoDB
+          await newOrder.save();  
         }
 
         console.log("Fulfill the order with custom logic");

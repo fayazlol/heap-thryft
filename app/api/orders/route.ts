@@ -1,4 +1,3 @@
-// app/api/orders/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import Order from '@/models/order';

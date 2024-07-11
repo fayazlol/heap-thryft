@@ -1,4 +1,4 @@
-// app/yourpage/page.tsx
+
 import React from "react";
 import ProductListing from "../../models/ProductListing";
 import { Card, Image, Link, CardFooter, CardBody } from "@nextui-org/react";

@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import User from "../../../models/user";
 import { getServerSession } from "next-auth";
 import { redirect } from 'next/navigation';
-import ProductListing from '../../../models/ProductListing'; // Assuming this is your listing model
+import ProductListing from '../../../models/ProductListing'; 
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -54,7 +54,6 @@ export async function POST(req: NextRequest) {
 
   const user = await User.findOne({ email: session.user?.email });
 
-  // Fetch the listing to find the owner of the product
   const listing = await ProductListing.findById(productId);
   if (!listing) {
     return NextResponse.json({ error: 'Product not found' }, { status: 404 });

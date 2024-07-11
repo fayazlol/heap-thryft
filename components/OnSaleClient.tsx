@@ -67,7 +67,7 @@ const OnSaleClient: React.FC<OnSaleClientProps> = ({ user, salelistings }) => {
 
   const handleFilter = (newFilters: any) => {
     setFilters(newFilters);
-    setCurrentPage(1); // Reset to the first page when filters change
+    setCurrentPage(1); 
   };
 
   const handleNextPage = () => {

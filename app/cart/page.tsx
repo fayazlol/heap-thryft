@@ -1,8 +1,6 @@
 import React from "react";
 import ProductListing from "../../models/ProductListing";
-import { Card, Button, Image } from "@nextui-org/react";
-import { formatDate } from "../lib/formatDate";
-import LikeIcon from "../lib/ToggleLikeButton";
+import { Image } from "@nextui-org/react";
 import dbConnect from "../lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

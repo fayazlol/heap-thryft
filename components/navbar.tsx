@@ -1,18 +1,31 @@
 "use client";
-import React from 'react';
-import { NextUIProvider } from "@nextui-org/system";
-import { useSession } from "next-auth/react";
+import React, { useState } from 'react';
+import { NextUIProvider } from "@nextui-org/react";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 import { LoginButton } from './loginbutton';
-import { LogoutButton } from './logoutbutton';
 import { SignupButton } from './signupbutton';
-import ProfileIcon from "@/components/profileIcon";
 import NavbarCart from "@/components/NavbarCart";
+import HeartIconOutline from "@/components/NavHeartIconOutline";
+import HeartIconSolid from "@/components/NavHeartSolid";
 import dynamic from 'next/dynamic';
+import NavPfp from '@/components/NavPfp';
+import { Image, Link} from "@nextui-org/react";
 
 const SearchBar = dynamic(() => import('@/components/SearchBar'), { ssr: false });
 
 const Navbar = () => {
     const { data: session }: any = useSession();
+    const [isHovered, setIsHovered] = useState(false);
+    const router = useRouter();
+
+    const handleHeartClick = () => {
+        router.push('/userprofile/favourites');
+    };
+
+    const handleLogout = async () => {
+        signOut();
+    };
 
     return (
         <NextUIProvider>
@@ -38,9 +51,14 @@ const Navbar = () => {
                 <nav className="flex flex-col items-center w-[90%] mx-auto py-4">
                     <div className="flex justify-between items-center w-full">
                         <div className="flex items-center">
-                            <a className="text-3xl font-bold text-black" href='/'>
-                                THRYFT
-                            </a>
+                        <Link href="/">
+                        <Image
+                            width={120}
+                            alt="thryftlogo"
+                            src="/thryftlogo.png"
+                            isBlurred
+                             />
+                             </Link>
                         </div>
                         <div className="flex flex-grow justify-center items-center gap-6">
                             <SearchBar />
@@ -56,13 +74,18 @@ const Navbar = () => {
                             )}
                             {session && (
                                 <>
+                                    <div 
+                                        className="flex flex-col text-2xl justify-center items-center cursor-pointer" 
+                                        onClick={handleHeartClick}
+                                        onMouseEnter={() => setIsHovered(true)}
+                                        onMouseLeave={() => setIsHovered(false)}>
+                                        {isHovered ? <HeartIconSolid className="heart-icon" /> : <HeartIconOutline className="heart-icon" />}
+                                    </div>
                                     <a className="flex flex-col text-2xl justify-center items-center" href='/cart'>
-                                        <NavbarCart/>
+                                        <NavbarCart />
                                     </a>
-                                    <a className="flex flex-col text-2xl justify-center items-center" href='/userprofile'>
-                                        <ProfileIcon/>
-                                    </a>
-                                    <LogoutButton />
+                                            <NavPfp/>
+                                       
                                 </>
                             )}
                         </div>

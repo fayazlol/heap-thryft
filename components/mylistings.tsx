@@ -74,8 +74,15 @@ const Listings: FC<ListingsProps> = ({ listings }) => {
               <div className="absolute top-2 left-2 z-20 flex flex-col space-y-2">
                 {listing.isSold ? (
                   <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start">
-                    <span className="bg-red-500 text-white py-1 px-3 rounded-xl">sold</span>
-                  </div>
+              <Button
+                    color="danger"
+                    size="sm"
+                    variant="solid"
+                    className="text-white"
+                    radius="full"
+                  >
+                    Sold
+                  </Button>                  </div>
                 ) : (
                   <>
                     <EditListingButton productId={listing._id} />

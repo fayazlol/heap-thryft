@@ -1,11 +1,8 @@
 
 import * as React from "react";
 import {Card,Button,Image,Link,CardFooter,CardBody, Divider} from "@nextui-org/react";
-import {NextUIProvider} from "@nextui-org/system";
 import { maxHeaderSize } from "http";
-import { redirect } from "next/dist/server/api-utils";
 import dbConnect from "./lib/dbConnect";
-import mongoose from "mongoose";
 import ShopByUsers from "@/components/ShopByUsers";
 import User from "@/models/user";
 import ProductListing from "@/models/ProductListing";
@@ -17,7 +14,7 @@ import Footer from "@/components/Footer";
 export default async function Home() {
   await dbConnect();
   const users = await User.find()
-  const discountedProducts = await ProductListing.find({ isDiscounted: true }).sort({ createdAt: -1 })
+  const discountedProducts = await ProductListing.find({ isDiscounted: true, isSold: false }).sort({ createdAt: -1 })
   .limit(5);
 
 

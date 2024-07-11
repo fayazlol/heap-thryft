@@ -1,10 +1,11 @@
+//used for testing
+
 import { Card, CardBody, CardFooter } from '@nextui-org/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDate } from '@/app/lib/formatDate';
 import LikeIcon from '@/app/lib/ToggleLikeButton';
 import mongoose from 'mongoose';
-//still figuring out for now, can ignore
 interface Listing {
   _id: mongoose.Types.ObjectId;
   productImagePath: string;

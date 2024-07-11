@@ -4,7 +4,7 @@ import dbConnect from "../../lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import User from "../../../models/user";
-import CategoryClient from "../../../components/CategoryClient"; // Import the correct client-side component
+import CategoryClient from "../../../components/CategoryClient"; 
 
 const CategoryPage = async ({ params }: { params: { category: string } }) => {
   const { category } = params;

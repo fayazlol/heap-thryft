@@ -10,15 +10,12 @@ export async function POST(req: NextRequest) {
   try {
     const orders = await Order.find();
 
-    // Process each order
     for (const order of orders) {
       const cartId = order.cartId;
       const productId = order.productId;
 
-      // Delete the cart item
       await Cart.findByIdAndDelete(cartId);
 
-      // Update the product listing
       await ProductListing.findByIdAndUpdate(productId, { isSold: true });
     }
 

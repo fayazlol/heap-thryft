@@ -3,7 +3,6 @@ import User from "@/models/user";
 import dbConnect from "@/app/lib/dbConnect";
 import ProductListing from "@/models/ProductListing";
 import ProductListingPage from "@/components/productListing";
-import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 
 const ListingPage = async ({ params }: { params: { id: string } }) => {
@@ -26,7 +25,6 @@ if (!user) {
     redirect("/");
     return null;
   }
-//line 24-25 calls the UserProfile variable from components/userprofile.tsx, which contains code to render the page
   return (
     <ProductListingPage listing={Listing} sessionuser={user.username} />
   );

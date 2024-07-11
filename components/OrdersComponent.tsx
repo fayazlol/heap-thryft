@@ -49,7 +49,7 @@ const OrdersComponent: React.FC<OrdersComponentProps> = ({ user }) => {
         }),
       });
 
-      // Refresh the orders after updating status
+      
       const resReceive = await fetch(`/api/orders/receive?username=${user.username}`);
       const dataReceive = await resReceive.json();
       setToReceive(dataReceive);

@@ -29,7 +29,7 @@ interface ListingsProps {
   username: string;
 }
 
-const ITEMS_PER_PAGE = 15;
+const ITEMS_PER_PAGE = 10;
 
 const MyFavouritesClient: FC<ListingsProps> = ({ listings, username }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -118,13 +118,14 @@ const MyFavouritesClient: FC<ListingsProps> = ({ listings, username }) => {
         )}
       </div>
       <div className="flex items-center justify-center mt-4">
-        <Button disabled={currentPage === 1} onPress={handlePreviousPage}>
-          ← Previous
+        <Button size="sm" radius="full" disabled={currentPage === 1} onPress={handlePreviousPage}>
+          ← 
         </Button>
-        <span className="mx-4">{currentPage} / {totalPages}</span>
-        <Button disabled={currentPage === totalPages} onPress={handleNextPage}>
-          Next →
+        <span className="mx-4 text-black">{currentPage} / {totalPages}</span>
+        <Button size="sm" radius="full" disabled={currentPage === totalPages} onPress={handleNextPage}>
+          →
         </Button>
+        <div className="py-8 "></div>
       </div>
     </div>
   );

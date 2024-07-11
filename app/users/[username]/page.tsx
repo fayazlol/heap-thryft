@@ -1,28 +1,63 @@
 import { redirect } from "next/navigation";
+import { Card, Image, Avatar} from "@nextui-org/react";
 import User from "@/models/user";
 import dbConnect from "@/app/lib/dbConnect";
 import ProductListing from "@/models/ProductListing";
 import UserProfile from "@/components/userprofile";
-//lines 10-11 sets up the dynamic route, so params refers to the url path (localhost:3000/users/params),
-//and params will be replaced by whatever username 
+import { maxHeaderSize } from "http";
+import { getServerSession } from "next-auth";
+
 const UserPage = async ({ params }: { params: { username: string } }) => {
   const { username } = params;
-//line 14 is to connect to database by calling dbConnect function
-//line 15 sets the variable user, by using the mongoose function findone, which will find a document from the collection
-//in the case User, a username which matches the username u provide.
-//line 17 basically means if the user doesnt exist, redirect them to homepage
+
+  const session = await getServerSession();
+  if (!session) {
+    redirect('/');
+    return null;
+  }
+
   await dbConnect();
+  const CurrentUser = await User.findOne({ email: session.user?.email });
+
+  if (!CurrentUser) {
+    redirect('/');
+    return null;
+  }
   const user = await User.findOne({ username });
   if (!user) {
     redirect("/");
     return null;
   }
-//line 23 finds uses mongoose find command to find all products in the ProductListing collection
-//which have been posted by the username u want. the result is set as the variable listing
+
   const listings = await ProductListing.find({ username });
-//line 24-25 calls the UserProfile variable from components/userprofile.tsx, which contains code to render the page
+  const listingsCount = await ProductListing.countDocuments({ username: user.username });
+  const joinDate = new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  
+
   return (
-    <UserProfile user={user} listings={listings} />
+    <div className="bg-[#fafafa] min-h-screen items-center justify-center px-6 ">
+      <div className="items-center justify-center px-6 ">
+    <h1 className="font-bold text-4xl text-black mb-2 py-2 ml-2">@{user.username}</h1>
+      <Card className="bg-white rounded-xl shadow-lg w-full">
+        <Image
+          src={user.bannerpicture}
+          alt="Banner Picture"
+          width={maxHeaderSize}
+          height={50}
+          className="object-center mx-auto h-[300px] mb-6 "
+        />
+       <div className=" relative justify-start items-start inline-flex -top-6">
+        <Avatar src={user.profilepicture} className=" z-20 -top-[50px] left-3 w-[120px] h-[120px] text-large  border-4 border-white" />
+        <h1 className="text-2xl font-bold ml-8 mt-2  ">@{user.username}</h1>
+        <p className="text-gray-600 mt-4 ml-10">{listingsCount} Listings | Joined {joinDate}</p>
+        </div>
+        <div className="absolute top-0 left-0 w-full mt-[370px]">
+    <p className="text-gray-700 ml-4">{user.bio}</p>
+  </div>
+      </Card>
+    <UserProfile user={user} listings={listings} currentuser={CurrentUser} />
+    </div>
+    </div>
   );
 };
 

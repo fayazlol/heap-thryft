@@ -24,6 +24,9 @@ interface ProductListing {
 export async function POST(request: Request): Promise<NextResponse> {
     const { username, productName, price, productImage1, productImage2, productImage3, productImage4, productDescription,
         productBrand, productSize, category, isDiscounted, discountPrice, productCondition, gender }: ProductListing = await request.json();
+        if (!productImage1) {
+            return NextResponse.json({ message: "Image 1 required" }, { status: 400 });
+          }
     await dbConnect();
     await ProductListing.create({ username, productName, price, productImage1, productImage2, productImage3, productImage4, productDescription,
         productBrand, productSize, category, isDiscounted, discountPrice, productCondition, gender, isSold: false });

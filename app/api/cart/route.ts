@@ -1,4 +1,3 @@
-// app/api/cart/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
@@ -37,10 +36,8 @@ export async function DELETE(req: NextRequest) {
     }
 
     if (productId) {
-      // Delete one document with the specified username and productId
       await Cart.findOneAndDelete({ username, productId });
     } else {
-      // Delete all documents with the specified username
       await Cart.deleteMany({ username });
     }
 

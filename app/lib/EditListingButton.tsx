@@ -14,7 +14,8 @@ const EditListingButton: React.FC<EditListingButtonProps> = ({ productId }) => {
         color="primary"
         variant="solid"
         className="text-white"
-        style={{ padding: '5px 10px', fontSize: '12px' }}
+        size="sm"
+        radius="full"
       >
         Edit
       </Button>

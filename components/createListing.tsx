@@ -1,10 +1,12 @@
-// components/createListing.tsx
+// components/CreateListing.tsx
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { UploadButton } from "@/app/lib/uploadthing";
-import { Divider } from "@nextui-org/react";
+import { Divider, Image } from "@nextui-org/react";
+
+
 
 interface FormData {
   productName: string;
@@ -45,9 +47,28 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
     isDiscounted: false,
     discountPrice: "",
     productCondition: "Brand New",
-    gender: 'Menswear', // Default value
+    gender: 'Menswear', 
     isSold: false,
   });
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = [
+    formData.productImage1,
+    formData.productImage2,
+    formData.productImage3,
+    formData.productImage4
+  ].filter(image => image); 
+
+  const handlePreviousImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+  };
+
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
 
@@ -58,7 +79,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
     if (name === "price" || name === "discountPrice") {
       const regex = /^\d+(\.\d{0,2})?$/;
       if (!regex.test(value)) {
-        return; // If the value does not match the regex, do not update the state
+        return; 
       }
     }
 
@@ -76,8 +97,32 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
     });
   };
 
+
+
+
+
+  const validateForm = () => {
+    if (formData.isDiscounted && formData.discountPrice) {
+      const price = parseFloat(formData.price);
+      const discountPrice = parseFloat(formData.discountPrice);
+
+      if (discountPrice >= price) {
+        setErrorMessage("Discount price must be smaller than the original price.");
+        return false;
+      }
+    }
+
+    setErrorMessage("");
+    return true;
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const response = await fetch('/api/productlisting', {
       method: 'POST',
       headers: {
@@ -101,7 +146,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
         isDiscounted: false,
         discountPrice: "",
         productCondition: "Brand New",
-        gender: 'Menswear', // Reset to default
+        gender: 'Menswear', 
         isSold: false,
       });
       router.push('/userprofile');
@@ -114,6 +159,29 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
         <div className="bg-white p-6 rounded-2xl shadow-2xl w-100 text-center">
           <h1 className="text-black mb-4 text-4xl font-semibold">Create Listing</h1>
           <Divider/>
+          <div className="flex-1 relative">
+            <div>
+          <Image
+            src={images[currentImageIndex]}
+            alt={formData.productName}
+            width={400}
+            height={400}
+            className="object-cover shadow-lg"
+          />
+          </div>
+          <button
+            className="absolute left-[-10px] top-1/2 z-20 transform -translate-y-1/2 bg-[#2563eb] text-white p-2 rounded-xl"
+            onClick={handlePreviousImage}
+          >
+            {"←"}
+          </button>
+          <button
+            className="absolute right-[-10px] top-1/2 z-20 transform -translate-y-1/2 bg-[#2563eb] text-white p-2 rounded-xl"
+            onClick={handleNextImage}
+          >
+            {"→"}
+          </button>
+        </div>
           <form onSubmit={handleSubmit} className="mt-6">
             <div className="grid md:grid-cols-2 auto-rows gap-0.5 px-4 py-2">
               <div>
@@ -125,7 +193,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
                     console.log("Files: ", res);
                     setFormData({
                       ...formData,
-                      productImage1: res[0].url, // Adjust based on the actual structure of res
+                      productImage1: res[0].url, 
                     });
                   }}
                   onUploadError={(error: Error) => {
@@ -135,6 +203,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               </div>
               <div>
                 <h3 className="text-m font-semibold text-gray-600">Image 2</h3>
+          
                 <UploadButton
                   endpoint="imageUploader"
                   className=" mt-1 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
@@ -142,7 +211,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
                     console.log("Files: ", res);
                     setFormData({
                       ...formData,
-                      productImage2: res[0].url, // Adjust based on the actual structure of res
+                      productImage2: res[0].url,
                     });
                   }}
                   onUploadError={(error: Error) => {
@@ -152,6 +221,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               </div>
               <div>
                 <h3 className="text-m font-semibold text-gray-600">Image 3</h3>
+                
                 <UploadButton
                   endpoint="imageUploader"
                   className=" mt-1 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
@@ -159,7 +229,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
                     console.log("Files: ", res);
                     setFormData({
                       ...formData,
-                      productImage3: res[0].url, // Adjust based on the actual structure of res
+                      productImage3: res[0].url, 
                     });
                   }}
                   onUploadError={(error: Error) => {
@@ -169,6 +239,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               </div>
               <div>
                 <h3 className="text-m font-semibold text-gray-600">Image 4</h3>
+                
                 <UploadButton
                   endpoint="imageUploader"
                   className=" mt-1 ut-button:bg-blue-500 ut-button:ut-readying:bg-blue-500/50"
@@ -176,7 +247,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
                     console.log("Files: ", res);
                     setFormData({
                       ...formData,
-                      productImage4: res[0].url, // Adjust based on the actual structure of res
+                      productImage4: res[0].url, 
                     });
                   }}
                   onUploadError={(error: Error) => {
@@ -185,39 +256,39 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
                 />
               </div>
             </div>
+            <p className="text-left text-black">Product Name</p>
             <input
               type="text"
               name="productName"
               value={formData.productName}
               onChange={handleInputChange}
-              placeholder="Product Name"
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
               required
             />
+            <p className="text-left text-black">Price</p>
             <input
               type="number"
               name="price"
               value={formData.price}
               onChange={handleInputChange}
-              placeholder="Price"
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
               required
             />
+            <p className="text-left text-black">Brand</p>
             <input
               type="text"
               name="productBrand"
               value={formData.productBrand}
               onChange={handleInputChange}
-              placeholder="Brand"
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
               required
             />
+            <p className="text-left text-black">Size</p>
             <input
               type="text"
               name="productSize"
               value={formData.productSize}
               onChange={handleInputChange}
-              placeholder="Size"
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
               required
             />
@@ -251,11 +322,13 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               <option value="Bottoms">Bottoms</option>
               <option value="Others">Others</option>
             </select>
+            <p className="text-left text-black">Description</p>
             <textarea
               name="productDescription"
               value={formData.productDescription}
               onChange={handleInputChange}
-              placeholder="Product Description"
+              placeholder="500 Character Limit"
+              maxLength={500}
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
               required
             />
@@ -270,6 +343,9 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
               Discounted
             </label>
             {formData.isDiscounted && (
+              <div>
+                            <p className="text-left text-black">Discount Price</p>
+
               <input
                 type="number"
                 name="discountPrice"
@@ -279,7 +355,12 @@ const CreateListing: React.FC<CreateListingProps> = ({ user }) => {
                 className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-black"
                 required
               />
+              </div>
             )}
+            {errorMessage && (
+              <div className="text-red-500 mb-4">{errorMessage}</div>
+            )}
+            <p className="text-left text-black">Sub-Category</p>
             <select
               name="gender"
               value={formData.gender}

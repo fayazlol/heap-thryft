@@ -1,4 +1,3 @@
-// components/RemoveFromCartButton.tsx
 "use client";
 import { Card, Button, Image } from "@nextui-org/react";
 

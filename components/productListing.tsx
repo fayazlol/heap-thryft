@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect} from "react";
 import { Card, Button, Image, Link, CardFooter, CardBody, Divider } from "@nextui-org/react";
 import { formatDate } from "@/app/lib/formatDate";
 import ListingCartButton from "@/app/lib/ListingCartButton";
@@ -31,6 +31,8 @@ interface ProductListingProps {
 
 const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [listingCount, setListingCount] = useState<number>(0);
+  const [favoriteCount, setFavoriteCount] = useState<number>(0);
 
   const images = [
     listing.productImage1,
@@ -46,6 +48,39 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   };
+
+  useEffect(() => {
+    const fetchListingCount = async () => {
+      try {
+        const response = await fetch(`/api/getListingCount?username=${listing.username}`);
+        const data = await response.json();
+        if (response.ok) {
+          setListingCount(data.count);
+        } else {
+          console.error('Failed to fetch listing count:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching listing count:', error);
+      }
+    };
+
+    const fetchFavoriteCount = async () => {
+      try {
+        const response = await fetch(`/api/getFavouriteCount?productId=${listing._id}`);
+        const data = await response.json();
+        if (response.ok) {
+          setFavoriteCount(data.count);
+        } else {
+          console.error('Failed to fetch favorite count:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching favorite count:', error);
+      }
+    };
+
+    fetchListingCount();
+    fetchFavoriteCount();
+  }, [listing.username, listing._id]);
 
   return (
     <main className="bg-[#fafafa] min-h-screen">
@@ -72,7 +107,7 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
           </button>
         </div>
         <div className="flex-1 ml-8">
-          <h1 className="text-black text-4xl font-bold mb-2">{listing.productName}</h1>
+          <h1 className="text-black text-4xl font-bold mb-2">{listing.productName} </h1>
           <p className="text-gray-700 mb-2">{listing.productBrand}</p>
           <p className="text-gray-500 mb-2">{listing.productSize} | {listing.productCondition}</p>
           <p className="text-gray-500 mb-2">Category: {listing.category} | {listing.gender}</p>
@@ -87,10 +122,13 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
               <p className="text-black text-xl font-bold mb-4">${listing.price}</p>
             )
           }
-          <b className="text-[#71717a] text-xs">Listed {formatDate(listing.createdAt)}</b>
+          <b className="text-[#71717a] text-xs">Listed {formatDate(listing.createdAt)}  | </b>
+          <b className="text-red-500 text-xs">Liked by {favoriteCount} users ♥︎</b>
+
           <Divider />
-          <p className="text-black mb-2 py-4">{listing.productDescription}</p>
-          <div className="w-full">
+          <p className="text-black mb-2 py-4 whitespace-pre-wrap" style={{ wordWrap: "break-word", maxWidth: "400px" }}>
+  {listing.productDescription}
+</p>          <div className="w-full">
             {listing.isSold ? (
               <div className="bg-red-500 text-white p-2 text-center rounded-xl mb-2">Item has been sold</div>
             ) : (
@@ -103,7 +141,7 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
           <div className="mt-8">
             <div className="flex items-center mb-4">
               <Image
-                src='/ballingcat.jpeg'
+                src='/defaultpfp.jpeg'
                 alt={listing.username}
                 width={50}
                 height={50}
@@ -113,6 +151,7 @@ const ProductListingPage: FC<ProductListingProps> = ({ listing, sessionuser }) =
                 <Link href={`/users/${listing.username}`}>
                   <p className="text-black font-bold hover:text-[#1d4ed8]">{listing.username}</p>
                 </Link>
+                <p className="text-gray-500">Listings Made: {listingCount}</p>
               </div>
             </div>
           </div>

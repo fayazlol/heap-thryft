@@ -1,4 +1,3 @@
-// app/orders/page.tsx
 import React from 'react';
 import dbConnect from '@/app/lib/dbConnect';
 import Order from "../../../models/order"

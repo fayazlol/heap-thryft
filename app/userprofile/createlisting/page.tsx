@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import User from "@/models/user";
 import dbConnect from "@/app/lib/dbConnect";
 import CreateListing from "@/components/createListing";
-import { cookies } from 'next/headers';
 
 export default async function UserProfilePage() {
   const session = await getServerSession();

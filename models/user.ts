@@ -22,6 +22,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    bannerpicture: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

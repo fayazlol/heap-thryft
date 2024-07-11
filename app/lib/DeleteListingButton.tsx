@@ -24,7 +24,7 @@ const DeleteListingButton: React.FC<DeleteListingButtonProps> = ({ productId }) 
       }
 
       alert('Listing deleted successfully');
-      router.refresh(); // Refresh the page to update the listings
+      router.refresh(); 
     } catch (error) {
       alert(error.message);
     }
@@ -32,10 +32,11 @@ const DeleteListingButton: React.FC<DeleteListingButtonProps> = ({ productId }) 
 
   return (
     <Button
-      color="primary"
+      color="danger"
+      size="sm"
       variant="solid"
       className="text-white"
-      style={{ padding: '5px 10px', fontSize: '12px' }}
+      radius="full"
       onClick={handleDelete}
     >
       Delete

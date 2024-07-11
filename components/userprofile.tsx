@@ -1,5 +1,7 @@
-import React, { FC } from "react";
-import { Card, Image, Link, CardFooter, CardBody, Divider } from "@nextui-org/react";
+"use client";
+
+import React, { FC, useState } from "react";
+import { Card, Image, Link, CardFooter, CardBody, Divider, Button, Avatar } from "@nextui-org/react";
 import LikeIcon from "@/app/lib/ToggleLikeButton";
 import mongoose from "mongoose";
 import { formatDate } from "@/app/lib/formatDate";
@@ -8,12 +10,20 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import User from "@/models/user";
 import CartButton from "@/app/lib/ToggleCartButton";
+import { maxHeaderSize } from "http";
+import ProductListing from "@/models/ProductListing";
 
 interface UserProfileProps {
+  currentuser:{
+    username:string;
+  };
   user: {
     username: string;
     email: string;
     profilepicture: string;
+    bannerpicture: string;
+    bio: string;
+    createdAt: Date;
   };
   listings: {
     _id: string;
@@ -36,40 +46,34 @@ interface UserProfileProps {
   }[];
 }
 
-const UserProfile: FC<UserProfileProps> = async ({ user, listings }) => {
-  const session = await getServerSession();
-  if (!session) {
-    redirect("/login");
-    return null;
-  }
+const ITEMS_PER_PAGE = 10;
 
-  await dbConnect();
-  const CurrentUser = await User.findOne({ email: session.user?.email });
 
-  if (!CurrentUser) {
-    redirect("/login");
-    return null;
-  }
+const UserProfile: FC<UserProfileProps> =  ({ user, listings, currentuser }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(listings.length / ITEMS_PER_PAGE);
 
-  if (CurrentUser == user.username){
-    redirect("/userprofile");
-    return null;
-  }
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentListings = listings.slice(startIndex, endIndex);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  
 
   return (
-    <main className="bg-[#fafafa] min-h-screen">
-      <div className="flex min-h-screen flex-col items-center justify-between p-24">
-        <div className="bg-white p-6 rounded-lg shadow-md w-96 text-center flex flex-col items-center">
-          <Image
-            src={user.profilepicture || "/testuser.jpg"}
-            alt="Profile Picture"
-            width={100}
-            height={100}
-            className="rounded-full mb-4"
-          />
-          <h1 className="text-black text-3xl font-semibold mb-4">@{user.username}</h1>
-        </div>
-        <h2 className="text-2xl font-semibold mb-4 py-4 text-black">{user.username}'s Listings</h2>
+    <div className="items-center justify-center px-6 ">
+        <h2 className="text-2xl font-semibold mb-4 py-4 text-black">@{user.username}'s Listings</h2>
         <div className="grid md:grid-cols-5 auto-rows-[400px] gap-4 px-4">
           {listings.length > 0 ? (
             listings.map((listing) => (
@@ -80,16 +84,23 @@ const UserProfile: FC<UserProfileProps> = async ({ user, listings }) => {
                   isBlurred
                 >
                  {listing.isSold ? (
-  <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start ml-2 mt-2">
-    <span className="bg-red-500 text-white py-1 px-3 rounded-xl z-20 ">s o l d</span>
-  </div>
+  <div className="z-30 absolute px-2 py-2 top-0 left-0 flex items-start justify-start">
+  <Button
+        color="danger"
+        size="sm"
+        variant="solid"
+        className="text-white"
+        radius="full"
+      >
+        Sold
+      </Button>                  </div>
 ) : (
   <>
     <div className="absolute top-2 right-2 z-20">                
-      <LikeIcon productId={listing._id} username={user.username} />
+      <LikeIcon productId={listing._id} username={currentuser.username} />
     </div>
     <div className="absolute top-2 left-2 z-20 shadow-s">
-      <CartButton productId={listing._id} username={user.username} />
+      <CartButton productId={listing._id} username={currentuser.username} />
     </div>
   </>
 )}
@@ -139,8 +150,17 @@ const UserProfile: FC<UserProfileProps> = async ({ user, listings }) => {
             <p>No listings found</p>
           )}
         </div>
+        <div className="flex items-center justify-center mt-4">
+        <Button size="sm" radius="full" disabled={currentPage === 1} onPress={handlePreviousPage}>
+          ← 
+        </Button>
+        <span className="mx-4 text-black">{currentPage} / {totalPages}</span>
+        <Button size="sm" radius="full" disabled={currentPage === totalPages} onPress={handleNextPage}>
+          →
+        </Button>
+        <div className="py-8 "></div>
       </div>
-    </main>
+    </div>
   );
 };
 

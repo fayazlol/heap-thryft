@@ -6,6 +6,7 @@ import User from "@/models/user";
 import Favourite from "@/models/favourite";
 import mongoose from "mongoose";
 import MyFavouritesClient from "../../../components/MyFavouritesClient";
+import MyUserProfile from "@/components/MyUserProfile";
 
 interface ProductListing {
   _id: mongoose.Types.ObjectId;
@@ -42,7 +43,7 @@ const MyFavouritesPage = async () => {
     redirect("/register");
     return null;
   }
-
+  const listingsCount = await ProductListing.countDocuments({ username: user.username });
   const favourites = await Favourite.find({ username: user.username });
   const productIds = favourites.map((favourite) => favourite.productId);
   const productListings = await ProductListing.find({
@@ -50,9 +51,12 @@ const MyFavouritesPage = async () => {
   });
 
   return (
-    <main className="bg-[#fafafa] min-h-screen"> 
-      <h1 className="text-black text-2xl font-bold mb-4">My Favourites</h1>
+    <main className="bg-[#fafafa] min-h-screen items-center justify-center px-6"> 
+    <MyUserProfile user={user} listingsCount={listingsCount} />
+    <div className="flex min-h-screen flex-col items-center mt-4">
+      <h1 className="text-black text-3xl font-semibold mb-6 ">My Favourites</h1>
       <MyFavouritesClient listings={productListings} username={user.username} />
+      </div>
     </main>
   );
 };
