@@ -1,5 +1,3 @@
-//completely fucked atm sorry gang...
-
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -13,10 +11,31 @@ interface OrdersComponentProps {
   };
 }
 
+interface Product {
+  _id: string;
+  username: string;
+  productName: string;
+  productSize: string;
+  category: string;
+  gender: string;
+  productCondition: string;
+  productImage1: string;
+  isDiscounted: boolean;
+  discountPrice?: string;
+  price: string;
+}
+
+interface Order {
+  _id: string;
+  productId: Product;
+  isSent: boolean;
+  isReceived: boolean;
+}
+
 const OrdersComponent: React.FC<OrdersComponentProps> = ({ user }) => {
   const router = useRouter();
-  const [toReceive, setToReceive] = useState([]);
-  const [toSend, setToSend] = useState([]);
+  const [toReceive, setToReceive] = useState<Order[]>([]);
+  const [toSend, setToSend] = useState<Order[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -37,7 +56,7 @@ const OrdersComponent: React.FC<OrdersComponentProps> = ({ user }) => {
     fetchOrders();
   }, [user.username]);
 
-  const handleUpdateStatus = async (orderId, type) => {
+  const handleUpdateStatus = async (orderId: string, type: 'isSent' | 'isReceived') => {
     try {
       await fetch(`/api/orders/${orderId}`, {
         method: 'PATCH',
@@ -49,7 +68,6 @@ const OrdersComponent: React.FC<OrdersComponentProps> = ({ user }) => {
         }),
       });
 
-      
       const resReceive = await fetch(`/api/orders/receive?username=${user.username}`);
       const dataReceive = await resReceive.json();
       setToReceive(dataReceive);
@@ -62,12 +80,12 @@ const OrdersComponent: React.FC<OrdersComponentProps> = ({ user }) => {
     }
   };
 
-  const renderOrder = (order, type) => (
+  const renderOrder = (order: Order, type: 'toSend' | 'toReceive') => (
     <div key={order._id} className="p-4 border rounded-lg shadow-md mb-4 bg-white">
       <div className="flex items-center">
         <Image src={order.productId.productImage1} alt={order.productId.productName} width={100} height={100} className="rounded-lg" />
         <div className="ml-4">
-        <p className=" text-black">@{order.productId.username}'s</p>
+          <p className=" text-black">@{order.productId.username}&apos;ss</p>
           <h3 className="text-xl font-bold text-black">{order.productId.productName}</h3>
           <p className='text-black'>Size: {order.productId.productSize}</p>
           <p className='text-black'>Category: {order.productId.category}</p>

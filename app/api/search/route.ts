@@ -28,9 +28,3 @@ export async function GET(req: NextRequest) {
         return new NextResponse(JSON.stringify({ error: 'Error fetching search results' }), { status: 500 });
     }
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};

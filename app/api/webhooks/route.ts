@@ -17,11 +17,7 @@ const stripe = new Stripe(process.env.NEXT_TEST_STRIPE_SECRET_KEY as string, {
 
 const endpointSecret = process.env.WEBHOOK_SECRET as string;
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
 
 async function readRequestBody(request: NextRequest) {
   const readable = request.body;

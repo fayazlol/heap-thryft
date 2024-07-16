@@ -26,7 +26,11 @@ const DeleteListingButton: React.FC<DeleteListingButtonProps> = ({ productId }) 
       alert('Listing deleted successfully');
       router.refresh(); 
     } catch (error) {
-      alert(error.message);
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('An unknown error occurred');
+      }
     }
   };
 

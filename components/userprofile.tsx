@@ -73,7 +73,7 @@ const UserProfile: FC<UserProfileProps> =  ({ user, listings, currentuser }) => 
 
   return (
     <div className="items-center justify-center px-6 ">
-        <h2 className="text-2xl font-semibold mb-4 py-4 text-black">@{user.username}'s Listings</h2>
+        <h2 className="text-2xl font-semibold mb-4 py-4 text-black">@{user.username}&apos;ss Listings</h2>
         <div className="grid md:grid-cols-5 auto-rows-[400px] gap-4 px-4">
           {listings.length > 0 ? (
             listings.map((listing) => (

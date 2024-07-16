@@ -7,7 +7,7 @@ const SearchBar = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (searchQuery.trim() !== '') {
             console.log('Searching for:', searchQuery);

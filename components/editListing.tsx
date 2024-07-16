@@ -21,8 +21,15 @@ interface FormData {
   productCondition: string;
   gender: 'Menswear' | 'Womenswear' | 'Unisex';
 }
+interface Params {
+  id: string;
+}
 
-const EditListing: React.FC = () => {
+interface EditListingProps {
+  params: Params;
+}
+
+const EditListing: React.FC<EditListingProps>  = ({ params }) => {
   const router = useRouter();
   const { id } = useParams();
 

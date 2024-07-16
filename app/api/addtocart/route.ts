@@ -4,15 +4,14 @@ import Cart from '../../../models/cart';
 import { NextRequest, NextResponse } from 'next/server';
 import User from "../../../models/user";
 import { getServerSession } from "next-auth";
-import { redirect } from 'next/navigation';
 import ProductListing from '../../../models/ProductListing'; 
 
 export async function GET(req: NextRequest) {
   await dbConnect();
   const session = await getServerSession();
+
   if (!session) {
-    redirect("/login");
-    return null;
+    return NextResponse.redirect("/login");
   }
 
   const user = await User.findOne({ email: session.user?.email });
@@ -47,9 +46,9 @@ export async function POST(req: NextRequest) {
   }
 
   const session = await getServerSession();
+
   if (!session) {
-    redirect("/login");
-    return null;
+    return NextResponse.redirect("/login");
   }
 
   const user = await User.findOne({ email: session.user?.email });

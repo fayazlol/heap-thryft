@@ -15,6 +15,11 @@ export const ourFileRouter = {
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
       const session = await getServerSession();
+      if (!session || !session.user) {
+        throw new UploadThingError("Unauthorized");
+      }
+      
+      
       await dbConnect();
       const user = await User.findOne({ email: session.user?.email });
  

@@ -147,7 +147,7 @@ const OrdersClient = ({ user }: { user: any }) => {
                   <div className="flex flex-col col-span-6 md:col-span-8">
                     <div className="flex justify-between items-start">
                       <div className="flex flex-col gap-0">
-                      <p className="text-small text-foreground/80">@{order.product.username}'s</p>
+                      <p className="text-small text-foreground/80">@{order.product.username}&apos;ss</p>
                         <h3 className="font-semibold text-foreground/90">{order.product.productName}</h3>
                         <p className="text-small text-foreground/80">{order.product.productBrand} | {order.product.productSize}</p>
                         <p className="text-small text-foreground/80">{order.product.productCondition}</p>

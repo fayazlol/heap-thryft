@@ -40,7 +40,8 @@
     "react-slick": "^0.30.2",
     "stream": "^0.0.3",
     "stripe": "^16.2.0",
-    "uploadthing": "^6.12.0"
+    "uploadthing": "^6.12.0",
+    "vercel": "^34.4.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

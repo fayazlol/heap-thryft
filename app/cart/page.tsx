@@ -88,7 +88,7 @@ const MyCartPage = async () => {
                     alt={listing.productName}
                   />
                   <div className="flex flex-col ml-4">
-                    <p className="text-s text-black justify-start">@{listing.username}'s</p>
+                    <p className="text-s text-black justify-start">@{listing.username}&apos;s</p>
                     <p className="text-xl font-semibold text-black">{listing.productName}</p>
                     <p className="text-small-medium text-black">{listing.productBrand} | {listing.productSize}</p>
                     {listing.isDiscounted ? (

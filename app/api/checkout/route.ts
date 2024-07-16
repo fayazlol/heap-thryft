@@ -18,7 +18,7 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession({ req });
+    const session = await getServerSession();
     if (!session) {
       return new NextResponse("User not logged in", { status: 401 });
     }
