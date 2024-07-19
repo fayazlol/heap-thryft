@@ -67,7 +67,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
               onClientUploadComplete={(res) => {
                 if (res && res.length > 0) {
                   setBannerPic(res[0].url);
-                  alert('Banner picture uploaded successfully.');//change to toast?
+                  alert('Banner picture uploaded successfully.');//change to toast
                 }
               }}
               onUploadError={(error: Error) => {

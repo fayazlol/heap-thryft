@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { UploadButton } from "@/app/lib/uploadthing";
 import { Divider, Image } from "@nextui-org/react";
 
+
 interface FormData {
   productName: string;
   price: string;
