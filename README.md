@@ -10,7 +10,7 @@ Website can be deployed via vercel, however do take note that the image uploadin
 
 ## Group Members
 Fayaz (@fayazlol)
-Daryl (@notlyrad)
+Daryl (@gnlyrad)
 Shaun (@waldo540)
 Anya (@anyahaseyo)
 Zhengjie (@tzhengjie)
